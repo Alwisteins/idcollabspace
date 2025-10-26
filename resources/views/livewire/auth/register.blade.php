@@ -1,6 +1,6 @@
 <section class="bg-stone-50 dark:bg-gray-900 py-12">
     <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen">
-        <a href="/" class="flex items-center mb-6 text-lg font-semibold text-blue-500 dark:text-white">
+        <a href="/welcome" class="flex items-center mb-6 text-lg font-semibold text-blue-500 dark:text-white">
             <img class="w-8 h-8 mr-2" src="./images/logo.png" alt="logo">
             IDCollabSpace
         </a>

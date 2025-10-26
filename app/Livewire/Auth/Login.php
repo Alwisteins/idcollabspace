@@ -17,13 +17,24 @@ class Login extends Component
 
     public function login()
     {
-        Auth::attempt([
-            'email' => $this->email,
-            'password' => $this->password
+        $this->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:6',
         ]);
 
-        if (Auth::check()) {
-            return Auth::user()->is_onboarded ? redirect()->route('home') : redirect()->route('onboarding');
+        // Coba autentikasi
+        if (Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
+            $user = Auth::user();
+
+            // Regenerasi session ID (keamanan)
+            session()->regenerate();
+
+            // Arahkan berdasarkan status onboarding
+            return $user->is_onboarded
+                ? redirect()->route('home')
+                : redirect()->route('onboarding');
         }
+
+        return $this->addError('email', 'Email atau password salah.');
     }
 }

@@ -27,6 +27,7 @@ class User extends Authenticatable
         'email',
         'password',
         'globals_role',
+        'is_onboarded',
         'location',
         'description',
         'avatar'
