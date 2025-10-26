@@ -6,16 +6,17 @@
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center space-x-2">
                     <img class="w-8 h-8" src="./images/logo.png" alt="logo">
-                    <span class="text-xl font-bold text-gray-900">IDCollabSpace</span>
+                    <span class="text-xl font-bold text-blue-600">IDCollabSpace</span>
                 </div>
                 <div class="hidden md:flex items-center space-x-8">
                     <a href="#" class="text-gray-600 hover:text-gray-900 transition">Home</a>
                     <a href="#projects" class="text-gray-600 hover:text-gray-900 transition">Projects</a>
                     <a href="#contributors" class="text-gray-600 hover:text-gray-900 transition">Contributor</a>
                     <a href="#categories" class="text-gray-600 hover:text-gray-900 transition">Categories</a>
-                    <button onclick="window.location.href = '{{ route('login') }}'"
+                    {{-- <button onclick="window.location.href = '{{ route('login') }}'"
                         class="px-6 py-3 font-semibold bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition shadow-lg shadow-blue-600/30">Mulai
-                        Sekarang</button>
+                        Sekarang</button> --}}
+                    <x-button onclick="window.location.href = '{{ route('login') }}' ">Mulai Sekarang</x-button>
                 </div>
             </div>
         </div>
@@ -40,10 +41,7 @@
                         Temukan partner terbaik untuk ide brilianmu atau bergabung dalam proyek yang menginspirasi.
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4 mt-6">
-                        <button
-                            class="px-8 py-4 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition shadow-xl shadow-blue-600/30 font-semibold">
-                            Mulai Sekarang
-                        </button>
+                        <x-button onclick="window.location.href = '{{ route('login') }}' ">Mulai Sekarang</x-button>
                         <button
                             class="px-8 py-4 bg-white text-gray-700 rounded-xl hover:bg-gray-50 transition border-2 border-gray-200 font-semibold">
                             Lihat Project
