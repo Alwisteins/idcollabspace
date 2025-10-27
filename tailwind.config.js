@@ -24,5 +24,19 @@ export default {
             },
         },
     },
+    safelist: [
+        {
+            pattern: /from-(blue|purple|orange|green|yellow)-(400|500|600)/,
+        },
+        {
+            pattern: /to-(blue|purple|orange|green|yellow)-(400|500|600)/,
+        },
+        "bg-blue-100",
+        "bg-green-100",
+        "bg-yellow-100",
+        "bg-purple-100",
+        "bg-orange-100",
+        "bg-red-100",
+    ],
     plugins: [],
 };
