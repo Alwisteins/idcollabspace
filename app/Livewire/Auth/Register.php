@@ -3,6 +3,7 @@
 namespace App\Livewire\Auth;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 
@@ -29,6 +30,10 @@ class Register extends Component
             'email' => $this->email,
             'password' => Hash::make($this->password)
         ]);
+
+        Auth::attempt(['email' => $this->email, 'password' => $this->password]);
+
+        session()->regenerate();
 
         return redirect()->route('onboarding');
     }
