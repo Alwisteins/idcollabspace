@@ -2,11 +2,13 @@
 
 namespace App\Livewire;
 
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
+#[Layout('components.layouts.guest')]
 class Onboarding extends Component
 {
     public $currentStep = 1;

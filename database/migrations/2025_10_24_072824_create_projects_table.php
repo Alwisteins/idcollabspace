@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('title', 150);
             $table->text('description');
             $table->foreignId('category_id')->constrained('categories', 'id')->onDelete('cascade');
-            $table->enum('status', ['open', 'in_progress', 'completed']);
+            $table->enum('status', ['open', 'in progress', 'completed']);
             $table->date('start_date');
             $table->date('end_date');
             $table->boolean('is_paid');

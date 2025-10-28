@@ -22,7 +22,8 @@
 </head>
 
 <body>
-    {{ $slot }}
+    <x-sidebar />
+    <div class="sm:ml-64 bg-stone-50 dark:bg-gray-900 min-h-screen"> {{ $slot }}</div>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 </body>
 

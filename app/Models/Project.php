@@ -35,4 +35,9 @@ class Project extends Model
     {
         return $this->hasMany(Application::class);
     }
+
+    public function roles()
+    {
+        return $this->hasMany(ProjectRole::class);
+    }
 }
