@@ -2,9 +2,10 @@
 
 namespace App\Livewire;
 
-use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
+#[Layout('components.layouts.guest')]
 class LandingPage extends Component
 {
     public $projects = [
