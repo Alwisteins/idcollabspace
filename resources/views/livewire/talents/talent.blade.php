@@ -4,8 +4,14 @@
             <div wire:navigate href="{{ route('talents.show', $talent['id']) }}"
                 class="bg-white rounded-2xl p-6 hover:shadow-xl transition-all border border-gray-200 group cursor-pointer hover:-translate-y-2">
                 <div class="flex items-center gap-4">
-                    <img src="{{ $talent['avatar'] ?? asset('images/avatar/male-1.png') }}" alt="{{ $talent['name'] }}"
-                        class="w-12 h-12 rounded-full" />
+                    @if ($talent->avatar)
+                        <img src="{{ $talent->avatar }}" alt="{{ $talent->name }}" class="w-16 h-16 rounded-full" />
+                    @else
+                        <div
+                            class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
+                            <h3 class="text-2xl font-bold text-white">{{ strtoupper(substr($talent->name, 0, 1)) }}</h3>
+                        </div>
+                    @endif
                     <div>
                         <h3 class="text-lg font-bold text-gray-900 mt-1">{{ $talent['name'] }}</h3>
                         <p class="text-sm text-gray-600">{{ $talent['location'] }}</p>
