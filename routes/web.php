@@ -9,6 +9,7 @@ use App\Livewire\Onboarding;
 use App\Livewire\Projects\Project;
 use App\Livewire\Projects\ProjectDetail;
 use App\Livewire\Talents\Talent;
+use App\Livewire\Talents\TalentDetail;
 use Illuminate\Support\Facades\Route;
 
 //landing page
@@ -36,4 +37,5 @@ Route::prefix('projects')->middleware(['auth', 'onboarded'])->group(function () 
 
 Route::prefix('talents')->middleware(['auth', 'onboarded'])->group(function () {
     Route::get('/', Talent::class)->name('talents.index');
+    Route::get('/{id}', TalentDetail::class)->name('talents.show');
 });

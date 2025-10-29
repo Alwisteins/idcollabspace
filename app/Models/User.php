@@ -17,6 +17,16 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
+    public function joinedProjects()
+    {
+        return $this->belongsToMany(Project::class, 'project_members', 'user_id', 'project_id');
+    }
+
+    public function ownedProjects()
+    {
+        return $this->hasMany(Project::class, 'owner_id');
+    }
+
     /**
      * The attributes that are mass assignable.
      *

@@ -16,7 +16,7 @@
                         <span class="px-2 py-1 rounded-md text-xs text-blue-600 bg-blue-100">{{ $role->name }}</span>
                     @endforeach
                 </div>
-                <div class="bg-gray-100 rounded-xl p-4">
+                <div class="bg-gray-100 rounded-lg p-2">
                     <p class="text-sm text-gray-600">{{ $talent['description'] }}</p>
                 </div>
             </div>
