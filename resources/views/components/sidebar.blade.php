@@ -45,7 +45,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#"
+                    <a wire:navigate href="{{ route('talents.index') }}"
                         class="{{ request()->routeIs('talents.*') ? 'bg-gray-100 text-blue-600' : 'text-gray-900' }} flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="size-6">
