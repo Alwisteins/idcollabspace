@@ -13,9 +13,9 @@ class Project extends Component
     public function getStatusColor($status)
     {
         return match (strtolower($status)) {
-            'open' => 'bg-green-100 text-green-700',
+            'open' => 'bg-red-100 text-red-700',
             'in progress' => 'bg-yellow-100 text-yellow-700',
-            'completed' => 'bg-red-100 text-red-700',
+            'completed' => 'bg-green-100 text-green-700',
             default => 'bg-gray-100 text-gray-700',
         };
     }
