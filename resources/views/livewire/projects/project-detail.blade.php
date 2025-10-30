@@ -1,6 +1,12 @@
 <div class="p-6">
-    <div>
-        <x-button :icon="config('icons.arrow-left-circle')" iconPosition="left">Kembali</x-button>
+    <div class="flex justify-between items-center">
+        <x-button wire:navigate href="{{ route('projects.index') }}" :icon="config('icons.arrow-left-circle')"
+            iconPosition="left">Kembali</x-button>
+        <x-breadcrumb :links="[
+            ['label' => 'Home', 'url' => route('home')],
+            ['label' => 'Projects', 'url' => route('projects.index')],
+            ['label' => 'Detail'],
+        ]" />
     </div>
     <div class="max-w-6xl mt-6 mx-auto bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
         {{-- Header & Meta --}}
