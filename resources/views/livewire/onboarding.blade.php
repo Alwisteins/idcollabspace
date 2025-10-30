@@ -7,11 +7,15 @@ $steps = ['Info Dasar', 'Pilih Role', 'Konfirmasi'];
 <div class="bg-stone-50 dark:bg-gray-900 min-h-screen mx-auto">
     <div class="flex flex-col items-center py-8 px-20">
 
-        <!-- Logo -->
-        <a href="/welcome" class="self-start flex items-center mb-6 text-lg font-semibold text-blue-500 dark:text-white">
-            <img class="w-8 h-8 mr-2" src="./images/logo.png" alt="logo">
-            IDCollabSpace
-        </a>
+        <div class="w-full flex justify-between mb-6">
+            <!-- Logo -->
+            <a href="/welcome" class="flex items-center text-lg font-semibold text-blue-500 dark:text-white">
+                <img class="w-8 h-8 mr-2" src="./images/logo.png" alt="logo">
+                IDCollabSpace
+            </a>
+            <x-button id="logout" wire:navigate href="{{ route('logout') }}" variant="text" :icon="config('icons.arrow-right-rectangle')"
+                class="text-red-600">Logout</x-button>
+        </div>
 
         <!-- Stepper Navigation -->
         <ol
