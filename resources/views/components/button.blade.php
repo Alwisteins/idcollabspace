@@ -13,6 +13,7 @@
         'secondary' => 'text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-gray-100',
         'danger' => 'text-white bg-red-600 hover:bg-red-700 focus:ring-red-300',
         'success' => 'text-white bg-green-600 hover:bg-green-700 focus:ring-green-300',
+        'text' => 'text-gray-900 bg-none',
     ];
 @endphp
 
