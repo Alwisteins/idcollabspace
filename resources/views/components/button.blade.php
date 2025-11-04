@@ -3,6 +3,7 @@
     'variant' => 'primary', // primary, secondary, danger, etc
     'icon' => null, // SVG path atau HTML icon component
     'iconPosition' => 'right', // left | right
+    'wireTarget' => null,
 ])
 
 @php
@@ -19,21 +20,23 @@
 
 <button type="{{ $type }}"
     {{ $attributes->merge(['class' => "$baseClass " . ($variants[$variant] ?? $variants['primary'])]) }}
-    wire:loading.attr="disabled">
+    @if ($wireTarget) wire:loading.attr="disabled" wire:target="{{ $wireTarget }}" @endif>
 
-    <span wire:loading.remove class="flex items-center justify-center">
+    <span
+        @if ($wireTarget) wire:loading.remove wire:target="{{ $wireTarget }}" @else wire:loading.remove @endif
+        class="flex items-center justify-center">
         @if ($icon && $iconPosition === 'left')
             <span class="me-2">{!! $icon !!}</span>
         @endif
-
         {{ $slot }}
-
         @if ($icon && $iconPosition === 'right')
             <span class="ms-2">{!! $icon !!}</span>
         @endif
     </span>
 
-    <span wire:loading.flex class="flex items-center justify-center">
+    <span
+        @if ($wireTarget) wire:loading.flex wire:target="{{ $wireTarget }}" @else wire:loading.flex @endif
+        class="flex items-center justify-center">
         <svg class="w-4 h-4 animate-spin me-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
             </circle>

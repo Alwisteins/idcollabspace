@@ -14,6 +14,7 @@ class Project extends Model
         'start_date',
         'end_date',
         'is_paid',
+        'owner_id',
     ];
 
     public function owner()

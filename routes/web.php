@@ -6,6 +6,7 @@ use App\Livewire\Auth\Register;
 use App\Livewire\LandingPage;
 use App\Livewire\Root;
 use App\Livewire\Onboarding;
+use App\Livewire\Projects\ProjectCreate;
 use App\Livewire\Projects\Project;
 use App\Livewire\Projects\ProjectDetail;
 use App\Livewire\Talents\Talent;
@@ -32,6 +33,7 @@ Route::get('/', Root::class)->name('home')->middleware(['auth', 'onboarded']);
 
 Route::prefix('projects')->middleware(['auth', 'onboarded'])->group(function () {
     Route::get('/', Project::class)->name('projects.index');
+    Route::get('/create', ProjectCreate::class)->name('projects.create');
     Route::get('/{id}', ProjectDetail::class)->name('projects.show');
 });
 

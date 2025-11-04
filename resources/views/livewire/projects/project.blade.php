@@ -1,5 +1,8 @@
-<div>
-    <div class="grid md:grid-cols-2 gap-8 p-12">
+<div class="p-12">
+    <div class="flex justify-end">
+        <x-button :icon="config('icons.plus')" wire:navigate href="{{ route('projects.create') }}">Buat Project</x-button>
+    </div>
+    <div class="grid md:grid-cols-2 gap-8 mt-8">
         @foreach ($projects as $project)
             <div wire:navigate href="{{ route('projects.show', $project['id']) }}"
                 class="bg-white rounded-2xl p-6 hover:cursor-pointer hover:shadow-xl transition-all border border-gray-200 group hover:-translate-y-1">
