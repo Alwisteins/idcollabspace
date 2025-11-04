@@ -1,6 +1,6 @@
 <div class="p-6">
     <div class="mb-6 flex justify-between items-center">
-        <x-button wire:navigate href="{{ route('projects.index') }}" :icon="config('icons.arrow-left-circle')"
+        <x-button wire:navigate wireTarget="kembali" href="{{ route('projects.index') }}" :icon="config('icons.arrow-left-circle')"
             iconPosition="left">Kembali</x-button>
         <x-breadcrumb :links="[
             ['label' => 'Home', 'url' => route('home')],
@@ -42,14 +42,15 @@
     </div>
     <div class="w-full flex {{ $currentStep == 1 ? 'justify-end' : 'justify-between' }} gap-6 mt-6">
         @if ($currentStep > 1)
-            <x-button id="prev" variant="secondary" :icon="config('icons.arrow-left-circle')" iconPosition="left"
+            <x-button id="prev" variant="secondary" :icon="config('icons.arrow-left-circle')" iconPosition="left" wireTarget="prevStep"
                 wire:click="prevStep">Sebelumnya</x-button>
         @endif
 
         @if ($currentStep < 3)
-            <x-button id="next" :icon="config('icons.arrow-right-circle')" wire:click="nextStep">Berikutnya</x-button>
+            <x-button id="next" :icon="config('icons.arrow-right-circle')" wireTarget="nextStep" wire:click="nextStep">Berikutnya</x-button>
         @else
-            <x-button id="finish" variant="success" wire:click="submit">Konfirmasi & Buat Proyek</x-button>
+            <x-button id="finish" variant="success" wire:click="submit">Konfirmasi &
+                {{ $mode == 'create' ? 'Buat' : 'Update' }} Proyek</x-button>
         @endif
     </div>
 </div>

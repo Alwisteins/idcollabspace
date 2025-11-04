@@ -1,6 +1,6 @@
 <div class="p-6">
     <div class="flex justify-between items-center">
-        <x-button wire:navigate href="{{ route('projects.index') }}" :icon="config('icons.arrow-left-circle')"
+        <x-button wire:navigate wireTarget="kembali" href="{{ route('projects.index') }}" :icon="config('icons.arrow-left-circle')"
             iconPosition="left">Kembali</x-button>
         <x-breadcrumb :links="[
             ['label' => 'Home', 'url' => route('home')],
@@ -55,8 +55,11 @@
                 {{-- Action Buttons --}}
                 <div class="mt-4 flex items-center gap-3">
                     @if (auth()->check() && auth()->id() === $project->owner_id)
-                        <x-button variant="success">Edit Project</x-button>
-                        <x-button variant="danger">Hapus Project</x-button>
+                        <x-button variant="success" wireTarget="edit" wire:navigate
+                            href="{{ route('projects.edit', $project) }}">Edit Project</x-button>
+                        <x-button variant="danger" wireTarget="delete({{ $project->id }})"
+                            wire:click="delete({{ $project->id }})">Hapus
+                            Project</x-button>
                     @endif
 
                     @if (auth()->check())

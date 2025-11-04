@@ -9,6 +9,7 @@
 
     @vite('resources/css/app.css')
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <style>

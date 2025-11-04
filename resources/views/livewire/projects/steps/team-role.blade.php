@@ -2,7 +2,7 @@
 
     <!-- Button buka modal -->
     <div class="flex justify-end">
-        <x-button :icon="config('icons.plus')" wire:click="openModal">Pilih Team Role</x-button>
+        <x-button :icon="config('icons.plus')" wireTarget="openModal" wire:click="openModal">Pilih Team Role</x-button>
     </div>
 
     <!-- ============ MODAL ============ -->
@@ -39,7 +39,7 @@
 
                 <!-- Footer -->
                 <div class="mt-6 flex justify-end border-t pt-3">
-                    <x-button type="button" wire:click="closeModal">Selesai</x-button>
+                    <x-button type="button" wireTarget="closeModal" wire:click="closeModal">Selesai</x-button>
                 </div>
             </div>
         </div>

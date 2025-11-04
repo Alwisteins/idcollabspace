@@ -15,11 +15,11 @@
         </div>
     </div> --}}
     {{-- End Bagian 1 --}}
-    <div class="flex justify-between items-start gap-4 p-4 rounded-xl border">
+    <div class="flex justify-between items-start gap-4 p-4 rounded-xl bg-black border">
         <div>
             <div class="flex items-center gap-4">
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-900">{{ $title }}</h1>
+                    <h1 class="text-lg font-medium text-white">{{ $title }}</h1>
                     <div class="text-sm text-gray-500 mt-1">
                         <span
                             class="px-2 py-1 rounded-md text-xs font-semibold {{ $statusColor }}">{{ $status }}</span>
@@ -29,12 +29,12 @@
                 </div>
             </div>
 
-            <p class="mt-4 text-gray-700 text-sm">{{ $description }}</p>
+            <p class="mt-4 text-gray-300 text-sm">{{ $description }}</p>
 
-            <div class="mt-5 flex flex-wrap gap-4 text-sm text-gray-700">
+            <div class="mt-5 flex flex-wrap gap-4 text-sm text-gray-300">
                 <div class="flex items-center gap-2">
                     <span class="font-semibold">💰 Tipe Proyek:</span>
-                    <span class="{{ $is_paid ? 'text-green-600 font-medium' : 'text-gray-500' }}">
+                    <span class="{{ $is_paid ? 'text-green-600 font-medium' : 'text-gray-300' }}">
                         {{ $is_paid ? 'Berbayar' : 'Non-Bayar / Volunteer' }}
                     </span>
                 </div>

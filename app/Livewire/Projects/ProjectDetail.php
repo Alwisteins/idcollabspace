@@ -160,6 +160,20 @@ class ProjectDetail extends Component
         $this->loadProject();
     }
 
+    public function delete($projectId)
+    {
+        $project = Project::findOrFail($projectId);
+        // Opsional: pastikan hanya owner yang bisa hapus
+        if ($project->owner_id !== Auth::id()) {
+            abort(403, 'Anda tidak punya izin untuk menghapus proyek ini.');
+        }
+
+        $project->delete();
+
+        session()->flash('success', 'Project berhasil dihapus');
+        return redirect()->route('projects.index');
+    }
+
     public function render()
     {
         return view('livewire.projects.project-detail', [
