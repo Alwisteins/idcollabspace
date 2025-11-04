@@ -3,6 +3,7 @@
 namespace App\Livewire\Projects;
 
 use App\Models\Project as ModelsProject;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -22,8 +23,20 @@ class Project extends Component
 
     public function render()
     {
+        $status = request()->query('status');
+        $userId = Auth::id();
+        $query = ModelsProject::with('roles.role')->latest();
+
+        if ($status == 'owner') {
+            $query->where('owner_id', $userId);
+        } else if ($status == 'collabolator') {
+            $query->whereHas('members', function ($q) use ($userId) {
+                $q->where('user_id', $userId);
+            });
+        }
+
         return view('livewire.projects.project', [
-            'projects' => ModelsProject::with('roles.role')->latest()->paginate(10),
+            'projects' => $query->paginate(10),
         ]);
     }
 }
