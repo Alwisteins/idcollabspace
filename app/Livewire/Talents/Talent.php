@@ -10,7 +10,7 @@ class Talent extends Component
     public function render()
     {
         return view('livewire.talents.talent', [
-            'talents' => User::where('globals_role', 'user')->with('roles')->latest()->paginate(20)
+            'talents' => User::where('globals_role', 'user')->where('is_onboarded', '1')->with('roles')->latest()->paginate(20)
         ]);
     }
 }
