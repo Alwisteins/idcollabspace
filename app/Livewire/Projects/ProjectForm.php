@@ -168,10 +168,11 @@ class ProjectForm extends Component
             ]);
 
             foreach ($this->selectedRoles as $role) {
+                $count = (int) $role['count'];
                 ProjectRole::create([
                     'project_id' => $project->id,
                     'role_id' => $role['id'],
-                    'is_filled' => 0
+                    'quantity' => $count
                 ]);
             }
 
@@ -191,10 +192,11 @@ class ProjectForm extends Component
             // Sinkronisasi role (hapus lama, simpan baru)
             $this->project->roles()->delete();
             foreach ($this->selectedRoles as $role) {
+                $count = (int) $role['count'];
                 ProjectRole::create([
                     'project_id' => $this->project->id,
                     'role_id' => $role['id'],
-                    'is_filled' => 0
+                    'quantity' => $count
                 ]);
             }
 

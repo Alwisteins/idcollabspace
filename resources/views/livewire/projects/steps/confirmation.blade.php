@@ -63,7 +63,7 @@
                             <p class="font-semibold text-gray-800">{{ $role['name'] }}</p>
                         </div>
                         <span class="text-gray-600 text-sm">
-                            Kuota: {{ $role['quantity'] ?? 1 }}
+                            Kuota: {{ $role['count'] ?? 1 }}
                         </span>
                     </div>
                 @endforeach
