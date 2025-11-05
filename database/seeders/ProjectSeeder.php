@@ -111,34 +111,34 @@ class ProjectSeeder extends Seeder
         // === 3️⃣ Project Roles ===
         $projectRoles = [
             // Project 1 - E-Commerce Platform
-            ['project_id' => 1, 'role_id' => 3, 'is_filled' => false, 'created_at' => $now],
-            ['project_id' => 1, 'role_id' => 4, 'is_filled' => false, 'created_at' => $now],
-            ['project_id' => 1, 'role_id' => 1, 'is_filled' => false, 'created_at' => $now],
+            ['project_id' => 1, 'role_id' => 3, 'quantity' => 1, 'created_at' => $now],
+            ['project_id' => 1, 'role_id' => 4, 'quantity' => 1, 'created_at' => $now],
+            ['project_id' => 1, 'role_id' => 1, 'quantity' => 1, 'created_at' => $now],
 
             // Project 2 - Trading Platform
-            ['project_id' => 2, 'role_id' => 1, 'is_filled' => false, 'created_at' => $now],
-            ['project_id' => 2, 'role_id' => 4, 'is_filled' => false, 'created_at' => $now],
-            ['project_id' => 2, 'role_id' => 12, 'is_filled' => false, 'created_at' => $now],
+            ['project_id' => 2, 'role_id' => 1, 'quantity' => 1, 'created_at' => $now],
+            ['project_id' => 2, 'role_id' => 4, 'quantity' => 1, 'created_at' => $now],
+            ['project_id' => 2, 'role_id' => 12, 'quantity' => 1, 'created_at' => $now],
 
             // Project 3 - WiseCommunity
-            ['project_id' => 3, 'role_id' => 11, 'is_filled' => false, 'created_at' => $now],
-            ['project_id' => 3, 'role_id' => 13, 'is_filled' => false, 'created_at' => $now],
-            ['project_id' => 3, 'role_id' => 12, 'is_filled' => false, 'created_at' => $now],
+            ['project_id' => 3, 'role_id' => 11, 'quantity' => 1, 'created_at' => $now],
+            ['project_id' => 3, 'role_id' => 13, 'quantity' => 1, 'created_at' => $now],
+            ['project_id' => 3, 'role_id' => 12, 'quantity' => 1, 'created_at' => $now],
 
             // Project 4 - Customer Portal
-            ['project_id' => 4, 'role_id' => 5, 'is_filled' => false, 'created_at' => $now],
-            ['project_id' => 4, 'role_id' => 1, 'is_filled' => false, 'created_at' => $now],
-            ['project_id' => 4, 'role_id' => 10, 'is_filled' => false, 'created_at' => $now],
+            ['project_id' => 4, 'role_id' => 5, 'quantity' => 1, 'created_at' => $now],
+            ['project_id' => 4, 'role_id' => 1, 'quantity' => 1, 'created_at' => $now],
+            ['project_id' => 4, 'role_id' => 10, 'quantity' => 1, 'created_at' => $now],
 
             // Project 5 - Hackathon Project
-            ['project_id' => 5, 'role_id' => 4, 'is_filled' => false, 'created_at' => $now],
-            ['project_id' => 5, 'role_id' => 9, 'is_filled' => false, 'created_at' => $now],
-            ['project_id' => 5, 'role_id' => 11, 'is_filled' => false, 'created_at' => $now],
+            ['project_id' => 5, 'role_id' => 4, 'quantity' => 1, 'created_at' => $now],
+            ['project_id' => 5, 'role_id' => 9, 'quantity' => 1, 'created_at' => $now],
+            ['project_id' => 5, 'role_id' => 11, 'quantity' => 1, 'created_at' => $now],
 
             // Project 6 - SaveIn
-            ['project_id' => 6, 'role_id' => 6, 'is_filled' => false, 'created_at' => $now],
-            ['project_id' => 6, 'role_id' => 1, 'is_filled' => false, 'created_at' => $now],
-            ['project_id' => 6, 'role_id' => 12, 'is_filled' => false, 'created_at' => $now],
+            ['project_id' => 6, 'role_id' => 6, 'quantity' => 1, 'created_at' => $now],
+            ['project_id' => 6, 'role_id' => 1, 'quantity' => 1, 'created_at' => $now],
+            ['project_id' => 6, 'role_id' => 12, 'quantity' => 1, 'created_at' => $now],
         ];
 
         DB::table('project_roles')->insert($projectRoles);
