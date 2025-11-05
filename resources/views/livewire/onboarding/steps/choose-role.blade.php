@@ -4,16 +4,24 @@
 
     <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
         @foreach ($roles as $role)
-            <label
-                class="flex items-center gap-2 border rounded-lg p-3 cursor-pointer hover:bg-blue-50 dark:hover:bg-gray-700">
+            <label class="relative cursor-pointer">
                 <input type="checkbox" wire:model="selectedRoles" value="{{ $role->id }}"
-                    class="text-blue-600 focus:ring-blue-500 rounded">
-                <span class="text-gray-800 dark:text-gray-100">{{ $role->name }}</span>
+                    class="absolute opacity-0 peer" />
+
+                <div
+                    class="flex items-center gap-2 border rounded-lg p-3 transition
+                    peer-checked:bg-blue-600 peer-checked:text-white 
+                    peer-checked:border-blue-600
+                    bg-gray-50 hover:bg-gray-100
+                    dark:bg-gray-700 dark:hover:bg-gray-600
+                    dark:text-gray-200">
+                    <span>{{ $role->name }}</span>
+                </div>
             </label>
         @endforeach
     </div>
 
     @error('selectedRoles')
-        <span class="error">{{ $message }}</span>
+        <span class="text-red-500 text-sm mt-2 block">{{ $message }}</span>
     @enderror
 </div>
