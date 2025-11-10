@@ -17,7 +17,7 @@
                         <p class="text-sm text-gray-600">{{ $talent['location'] }}</p>
                     </div>
                 </div>
-                <div class="gap-2 my-4">
+                <div class="flex flex-wrap gap-2 my-4">
                     @foreach ($talent->roles as $role)
                         <span class="px-2 py-1 rounded-md text-xs text-blue-600 bg-blue-100">{{ $role->name }}</span>
                     @endforeach
