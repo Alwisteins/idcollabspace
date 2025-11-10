@@ -54,7 +54,7 @@
 
                 {{-- Action Buttons --}}
                 <div class="mt-4 flex items-center gap-3">
-                    @if (auth()->check() && auth()->id() === $project->owner_id)
+                    @if (auth()->id() === $project->owner_id)
                         <x-button variant="success" wireTarget="edit" wire:navigate
                             href="{{ route('projects.edit', $project) }}">Edit Project</x-button>
                         <x-button variant="danger" wireTarget="delete({{ $project->id }})"
@@ -62,20 +62,14 @@
                             Project</x-button>
                     @endif
 
-                    @if (auth()->check())
-                        {{-- Check if user already applied any role --}}
-                        @php
-                            $userApplied = $project->applications->where('user_id', auth()->id())->count() > 0;
-                        @endphp
+                    {{-- Check if user already applied any role --}}
+                    @php
+                        $userApplied = $project->applications->where('user_id', auth()->id())->count() > 0;
+                    @endphp
 
-                        @if ($userApplied)
-                            <span
-                                class="px-4 py-2 bg-yellow-50 text-yellow-700 rounded-lg border border-yellow-200">Kamu
-                                sudah melamar</span>
-                        @endif
-                    @else
-                        <a href="{{ route('login') }}"
-                            class="px-4 py-2 bg-gray-50 text-gray-700 rounded-lg border">Login untuk Melamar</a>
+                    @if ($userApplied)
+                        <span class="px-4 py-2 bg-yellow-50 text-yellow-700 rounded-lg border border-yellow-200">Kamu
+                            sudah melamar</span>
                     @endif
                 </div>
             </div>
@@ -85,8 +79,17 @@
                 <h4 class="text-md font-semibold text-gray-800">Dibuat Oleh</h4>
                 <div class="w-64 mt-3">
                     <div class="flex items-center gap-1 bg-stone-100 p-2 border rounded-lg">
-                        <img src="{{ $project->owner?->avatar ?? asset('images/avatar/male-1.png') }}" alt="avatar"
-                            class="w-6 h-6 rounded-full object-cover">
+                        @if ($project->owner?->avatar)
+                            <img src="{{ $project->owner?->avatar }}" alt="{{ $project->owner?->name }}"
+                                class="w-6 h-6 rounded-full" />
+                        @else
+                            <div
+                                class="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
+                                <h3 class="text-2xl font-bold text-white">
+                                    {{ strtoupper(substr($project->owner?->name, 0, 1)) }}
+                                </h3>
+                            </div>
+                        @endif
                         <div>
                             <div class="font-semibold text-sm">{{ $project->owner?->name ?? '—' }}</div>
                         </div>
@@ -120,25 +123,23 @@
                         </div>
 
                         <div class="flex flex-col items-end gap-2">
-                            @if (auth()->check())
-                                {{-- Check if user already applied for this role --}}
-                                @php
-                                    $appliedForThis =
-                                        $project->applications->firstWhere('project_role_id', $pr->id) &&
-                                        $project->applications->firstWhere('project_role_id', $pr->id)->user_id ==
-                                            auth()->id();
-                                @endphp
+                            @php
+                                $roleApplicant = $project->applications->firstWhere('project_role_id', $pr->id);
+                                $appliedForThis = $roleApplicant && $roleApplicant->user_id == auth()->id();
+                            @endphp
 
-                                @if ($appliedForThis)
+                            @if (auth()->id() !== $project->owner_id)
+                                @if ($appliedForThis && $roleApplicant->status == 'pending')
                                     <button
-                                        wire:click="withdrawApplication({{ $project->applications->firstWhere('project_role_id', $pr->id)->id }})"
-                                        class="text-xs px-3 py-1 rounded-md border border-red-200 text-red-600">Withdraw</button>
+                                        wire:click="cancelApplication({{ $project->applications->firstWhere('project_role_id', $pr->id)->id }})"
+                                        class="text-xs px-3 py-1 rounded-md border border-red-200 text-red-600">Batal</button>
+                                @elseif($appliedForThis && $roleApplicant->status == 'rejected')
+                                    <button disabled
+                                        class="text-xs px-3 py-1 rounded-md border bg-gray-200 text-gray-600">Ditolak</button>
                                 @else
                                     <button wire:click="openApplyModal({{ $pr->id }})"
-                                        class="text-xs px-3 py-1 rounded-md bg-blue-600 text-white">Apply</button>
+                                        class="text-xs px-3 py-1 rounded-md bg-blue-600 text-white">Lamar</button>
                                 @endif
-                            @else
-                                <a href="{{ route('login') }}" class="text-xs px-3 py-1 rounded-md border">Login</a>
                             @endif
 
                             {{-- small progress bar --}}
@@ -170,14 +171,23 @@
                         @forelse($project->applications as $app)
                             <div class="p-3 border rounded-lg flex justify-between items-start">
                                 <div class="flex items-start gap-3">
-                                    <img src="{{ $app->user->avatar ?? 'https://via.placeholder.com/40' }}"
-                                        class="w-10 h-10 rounded-md object-cover" alt="avatar">
+                                    @if ($app->user->avatar)
+                                        <img src="{{ $app->user->avatar }}" class="w-10 h-10 rounded-md object-cover"
+                                            alt="avatar">
+                                    @else
+                                        <div
+                                            class="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
+                                            <h3 class="text-2xl font-bold text-white">
+                                                {{ strtoupper(substr($app->user->name, 0, 1)) }}
+                                            </h3>
+                                        </div>
+                                    @endif
                                     <div>
                                         <div class="font-medium">{{ $app->user->name }}</div>
                                         <div class="text-xs text-gray-500">
                                             {{ $app->projectRole->role->name ?? 'Role' }} •
                                             {{ $app->created_at->diffForHumans() }}</div>
-                                        <div class="text-sm text-gray-700 mt-2">{{ Str::limit($app->message, 200) }}
+                                        <div class="text-sm text-gray-700 mt-2">{{ Str::limit($app->message, 64) }}
                                         </div>
                                     </div>
                                 </div>
@@ -188,12 +198,10 @@
                                         {{ ucfirst($app->status) }}
                                     </div>
 
-                                    @if (auth()->check() && auth()->id() === $project->owner_id && $app->status === 'pending')
-                                        <div class="flex gap-2">
-                                            <button wire:click="acceptApplication({{ $app->id }})"
-                                                class="text-xs px-3 py-1 rounded-md bg-green-600 text-white">Accept</button>
-                                            <button wire:click="rejectApplication({{ $app->id }})"
-                                                class="text-xs px-3 py-1 rounded-md bg-red-50 text-red-700 border border-red-100">Reject</button>
+                                    @if (auth()->id() === $project->owner_id && $app->status === 'pending')
+                                        <div>
+                                            <button wire:click="openApplicantModal({{ $app->id }})"
+                                                class="text-xs px-3 py-1 rounded-md bg-blue-600 text-white">Lihat</button>
                                         </div>
                                     @endif
                                 </div>
@@ -241,10 +249,10 @@
     {{-- Apply Modal --}}
     @if ($showApplyModal)
         <div class="fixed inset-0 z-50 flex items-center justify-center">
-            <div class="absolute inset-0 bg-black opacity-30" wire:click="closeApplyModal"></div>
+            <div class="absolute inset-0 bg-black opacity-30" wire:click="closeApplModal"></div>
             <div class="bg-white rounded-xl shadow-xl w-full max-w-lg p-6 z-10">
                 <h3 class="text-lg font-semibold">Melamar:
-                    {{ optional($project->projectRoles->firstWhere('id', $applyRoleId))->role?->name }}</h3>
+                    {{ optional($project->roles->firstWhere('id', $applyRoleId))->role?->name }}</h3>
                 <textarea wire:model.defer="applyMessage" rows="6" class="mt-4 w-full border rounded-md p-2"
                     placeholder="Tulis pesan / cover letter (min 10 karakter)"></textarea>
                 @error('applyMessage')
@@ -258,6 +266,79 @@
                 </div>
             </div>
         </div>
+    @endif
+
+    {{-- Applicant Modal --}}
+    @if ($showApplicantModal)
+        <div class="fixed inset-0 z-50 flex items-center justify-center">
+            <!-- Overlay -->
+            <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" wire:click="closeApplicantModal"></div>
+
+            <!-- Modal Card -->
+            <div class="relative bg-white w-full max-w-md rounded-2xl shadow-2xl p-6 z-10 border border-gray-100">
+                <!-- Header -->
+                <div class="flex justify-between items-start mb-4">
+                    <div class="flex items-center gap-3">
+                        @if ($openedApplicant->user->avatar)
+                            <img src="{{ $openedApplicant->user->avatar }}"
+                                class="w-14 h-14 rounded-xl object-cover border border-gray-200 shadow-sm"
+                                alt="avatar">
+                        @else
+                            <div
+                                class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-sm">
+                                <span class="text-xl font-bold text-white">
+                                    {{ strtoupper(substr($openedApplicant->user->name, 0, 1)) }}
+                                </span>
+                            </div>
+                        @endif
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">
+                                {{ $openedApplicant->user->name }}
+                            </h3>
+                            <p class="text-sm text-gray-500">
+                                {{ $openedApplicant->user->location ?? 'Tidak ada lokasi' }}</p>
+                        </div>
+                    </div>
+
+                    <button wire:click="closeApplicantModal"
+                        class="text-gray-400 hover:text-gray-600 transition-colors duration-200">
+                        x
+                    </button>
+                </div>
+
+                <!-- Metadata -->
+                <div class="flex justify-between items-center text-xs text-gray-500 mb-4">
+                    <span class="inline-flex items-center gap-1">
+                        🧩 <strong>{{ $openedApplicant->projectRole->role->name ?? 'Role' }}</strong>
+                    </span>
+                    <span>{{ $openedApplicant->created_at->diffForHumans() }}</span>
+                </div>
+
+                <!-- Message -->
+                <div class="mb-5">
+                    <h4 class="text-sm font-semibold text-gray-700 mb-1">Pesan Pelamar</h4>
+                    <p class="text-gray-700 bg-gray-50 border border-gray-100 rounded-lg p-3 leading-relaxed text-sm">
+                        {{ $openedApplicant->message ?? '-' }}
+                    </p>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex justify-end gap-3">
+                    <button wire:click="rejectApplication({{ $openedApplicant->id }})"
+                        wire:target="rejectApplication({{ $openedApplicant->id }})"
+                        class="px-4 py-2 rounded-lg text-sm font-medium border border-red-200 text-red-600 hover:bg-red-50 transition">
+                        Tolak
+                    </button>
+
+                    <button wire:click="acceptApplication({{ $openedApplicant->id }})"
+                        wire:target="acceptApplication({{ $openedApplicant->id }})"
+                        class="px-4 py-2 rounded-lg text-sm font-medium bg-green-600 text-white hover:bg-green-700 transition">
+                        Terima
+                    </button>
+                </div>
+            </div>
+        </div>
+
     @endif
 
     {{-- Flash messages --}}

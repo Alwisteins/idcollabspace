@@ -1,5 +1,7 @@
 <?php
 
+use App\Livewire\Applications\Application;
+use App\Livewire\Applications\ApplicationByProject;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Logout;
 use App\Livewire\Auth\Register;
@@ -41,4 +43,9 @@ Route::prefix('projects')->middleware(['auth', 'onboarded'])->group(function () 
 Route::prefix('talents')->middleware(['auth', 'onboarded'])->group(function () {
     Route::get('/', Talent::class)->name('talents.index');
     Route::get('/{id}', TalentDetail::class)->name('talents.show');
+});
+
+Route::prefix('applications')->middleware(['auth', 'onboarded'])->group(function () {
+    Route::get('/', Application::class)->name('applications.index');
+    Route::get('/project/{project}', ApplicationByProject::class)->name('applications.byProject');
 });

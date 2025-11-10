@@ -7,7 +7,6 @@ use App\Models\Application;
 use App\Models\ProjectMember;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
 
 class ProjectDetail extends Component
 {
@@ -18,6 +17,8 @@ class ProjectDetail extends Component
     public $showApplyModal = false;
     public $applyRoleId = null;
     public $applyMessage = '';
+    public $showApplicantModal = false;
+    public $openedApplicant = null;
 
     protected $listeners = [
         'refreshProject' => 'loadProject'
@@ -73,11 +74,6 @@ class ProjectDetail extends Component
 
     public function apply()
     {
-        if (!Auth::check()) {
-            session()->flash('error', 'Silakan login untuk melamar.');
-            return;
-        }
-
         $this->validate([
             'applyMessage' => 'required|string|min:10|max:1000',
             'applyRoleId' => 'required|integer',
@@ -108,7 +104,7 @@ class ProjectDetail extends Component
         $this->loadProject();
     }
 
-    public function withdrawApplication($applicationId)
+    public function cancelApplication($applicationId)
     {
         $application = Application::findOrFail($applicationId);
 
@@ -119,6 +115,17 @@ class ProjectDetail extends Component
         $application->delete();
         session()->flash('success', 'Lamaran dibatalkan.');
         $this->loadProject();
+    }
+
+    public function openApplicantModal($applicantId)
+    {
+        $this->openedApplicant = $this->project->applications->firstWhere('id', $applicantId);
+        $this->showApplicantModal = true;
+    }
+    public function closeApplicantModal()
+    {
+        $this->openedApplicant = null;
+        $this->showApplicantModal = false;
     }
 
     // Owner actions
@@ -141,6 +148,8 @@ class ProjectDetail extends Component
         $application->status = 'accepted';
         $application->save();
 
+        $this->showApplicantModal = false;
+
         session()->flash('success', 'Pelamar diterima dan ditambahkan sebagai anggota.');
         $this->loadProject();
     }
@@ -155,6 +164,8 @@ class ProjectDetail extends Component
 
         $application->status = 'rejected';
         $application->save();
+
+        $this->showApplicantModal = false;
 
         session()->flash('success', 'Pelamar ditolak.');
         $this->loadProject();
