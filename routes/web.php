@@ -9,6 +9,8 @@ use App\Livewire\LandingPage;
 use App\Livewire\Projects\ProjectForm;
 use App\Livewire\Root;
 use App\Livewire\Onboarding;
+use App\Livewire\Profile\EditProfile;
+use App\Livewire\Profile\Profile;
 use App\Livewire\Projects\Project;
 use App\Livewire\Projects\ProjectDetail;
 use App\Livewire\Talents\Talent;
@@ -48,4 +50,9 @@ Route::prefix('talents')->middleware(['auth', 'onboarded'])->group(function () {
 Route::prefix('applications')->middleware(['auth', 'onboarded'])->group(function () {
     Route::get('/', Application::class)->name('applications.index');
     Route::get('/project/{project}', ApplicationByProject::class)->name('applications.byProject');
+});
+
+Route::prefix('profile')->middleware(['auth', 'onboarded'])->group(function () {
+    Route::get('/', Profile::class)->name('profile.show');
+    Route::get('/edit', EditProfile::class)->name('profile.edit');
 });

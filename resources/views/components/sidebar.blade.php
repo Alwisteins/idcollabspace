@@ -71,7 +71,7 @@
             </ul>
             <ul class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
                 <li>
-                    <a href="#"
+                    {{-- <a href="{{ route('profile.show') }}"
                         class="flex items-center p-2 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="size-6">
@@ -80,6 +80,21 @@
                         </svg>
 
                         <span class="ms-3">Profile</span>
+                    </a> --}}
+                    <a href="{{ route('profile.show') }}" wire:navigate
+                        class="{{ request()->routeIs('profile.*') ? 'bg-gray-100 text-blue-600' : 'text-gray-900' }} flex items-center p-2 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
+                        @if (auth()->user()->avatar)
+                            <img src="{{ auth()->user()->avatar }}" alt="{{ auth()->user()->name }}"
+                                class="w-8 h-8g rounded-full" />
+                        @else
+                            <div
+                                class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
+                                <h3 class="text-lg font-bold text-white">
+                                    {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                                </h3>
+                            </div>
+                        @endif
+                        <h3 class="ms-3">{{ auth()->user()->name }}</h3>
                     </a>
                 </li>
                 <li>
