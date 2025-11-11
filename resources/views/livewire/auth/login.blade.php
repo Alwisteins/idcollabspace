@@ -17,11 +17,17 @@
                         <input type="email" name="email" id="email"
                             class="form-input @error('email') form-input-error @enderror" placeholder="name@example.com"
                             wire:model="email">
+                        @error('email')
+                            <span class="error">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div>
                         <label for="password" class="label">Password</label>
                         <input type="password" name="password" id="password" placeholder="••••••••"
                             class="form-input @error('password') form-input-error @enderror" wire:model="password">
+                        @error('password')
+                            <span class="error">{{ $message }}</span>
+                        @enderror
                     </div>
                     {{-- <div class="flex items-center justify-between">
                         <div class="flex items-start">
