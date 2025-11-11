@@ -11,6 +11,29 @@ class Project extends Component
 {
     use WithPagination;
 
+    // --- PROPERTIES ---
+    public $search = '';
+    public $status;
+
+    // --- KEEP QUERY IN URL ---
+    protected $queryString = [
+        'search' => ['except' => ''],
+        'status' => ['except' => ''],
+    ];
+
+    // --- RESET PAGE ON SEARCH CHANGE ---
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+
+    // --- RESET PAGE ON STATUS CHANGE ---
+    public function updatingStatus()
+    {
+        $this->resetPage();
+    }
+
+    // --- STATUS COLOR HELPER ---
     public function getStatusColor($status)
     {
         return match (strtolower($status)) {
@@ -21,18 +44,22 @@ class Project extends Component
         };
     }
 
+    // --- RENDER ---
     public function render()
     {
-        $status = request()->query('status');
         $userId = Auth::id();
         $query = ModelsProject::with('roles.role')->latest();
 
-        if ($status == 'owner') {
+        if ($this->status == 'owner') {
             $query->where('owner_id', $userId);
-        } else if ($status == 'collabolator') {
+        } elseif ($this->status == 'collabolator') {
             $query->whereHas('members', function ($q) use ($userId) {
                 $q->where('user_id', $userId);
             });
+        }
+
+        if ($this->search) {
+            $query->where('title', 'like', '%' . $this->search . '%');
         }
 
         return view('livewire.projects.project', [
