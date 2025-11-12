@@ -85,7 +85,7 @@
                         class="{{ request()->routeIs('profile.*') ? 'bg-gray-100 text-blue-600' : 'text-gray-900' }} flex items-center p-2 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
                         @if (auth()->user()->avatar)
                             <img src="{{ auth()->user()->avatar }}" alt="{{ auth()->user()->name }}"
-                                class="w-8 h-8g rounded-full" />
+                                class="w-8 h-8 rounded-full" />
                         @else
                             <div
                                 class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
