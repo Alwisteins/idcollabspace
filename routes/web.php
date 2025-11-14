@@ -7,7 +7,7 @@ use App\Livewire\Auth\Logout;
 use App\Livewire\Auth\Register;
 use App\Livewire\LandingPage;
 use App\Livewire\Projects\ProjectForm;
-use App\Livewire\Root;
+use App\Livewire\Dashboard;
 use App\Livewire\Onboarding;
 use App\Livewire\Profile\EditProfile;
 use App\Livewire\Profile\Profile;
@@ -33,7 +33,7 @@ Route::get('/logout', [Logout::class, 'logout'])->name('logout');
 Route::get('/onboarding', Onboarding::class)->name('onboarding')->middleware(['auth', 'onboarding']);
 
 // Dashboard (Root) → hanya untuk user login + sudah onboarding
-Route::get('/', Root::class)->name('home')->middleware(['auth', 'onboarded']);
+Route::get('/', Dashboard::class)->name('home')->middleware(['auth', 'onboarded']);
 
 Route::prefix('projects')->middleware(['auth', 'onboarded'])->group(function () {
     Route::get('/', Project::class)->name('projects.index');

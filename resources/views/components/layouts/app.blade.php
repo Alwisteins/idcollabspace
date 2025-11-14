@@ -7,7 +7,7 @@
 
     <title>{{ $title ?? 'IDCollabSpace' }}</title>
 
-    @vite('resources/css/app.css')
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Fonts -->
@@ -22,10 +22,17 @@
     </style>
 </head>
 
-<body>
+<body class="bg-stone-50 dark:bg-gray-900">
     <x-sidebar />
-    <div class="sm:ml-64 bg-stone-50 dark:bg-gray-900 min-h-screen"> {{ $slot }}</div>
+
+    <div class="sm:ml-64 min-h-screen">
+        {{ $slot }}
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+
+    @livewireScripts
+    @stack('scripts')
 </body>
 
 </html>
