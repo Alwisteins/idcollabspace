@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class RedirectIfOnboarded
+class AdminMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,14 +16,18 @@ class RedirectIfOnboarded
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->is_onboarded) {
-            if (Auth::user()->globals_role == 'user') {
-                return redirect()->route('user.home');
-            } elseif (Auth::user()->globals_role == 'admin') {
-                return redirect()->route('admin.home');
+        if (Auth::check()) {
+            if (!Auth::user()->is_onboarded) {
+                return redirect()->route('onboarding');
             }
-        }
 
-        return $next($request);
+            if (Auth::user()->globals_role === "admin") {
+                return $next($request);
+            } else {
+                return redirect()->route('user.home');
+            }
+        } else {
+            return redirect()->route('login');
+        }
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Admin\DashboardAdmin;
 use App\Livewire\Users\Applications\Application;
 use App\Livewire\Users\Applications\ApplicationByProject;
 use App\Livewire\Auth\Login;
@@ -18,10 +19,10 @@ use App\Livewire\Users\Talents\TalentDetail;
 use Illuminate\Support\Facades\Route;
 
 //landing page
-Route::get('/welcome', LandingPage::class)->name('welcome');
+Route::get('/', LandingPage::class)->name('welcome');
 
 // auth
-Route::middleware(['guest'])->group(function () {
+Route::middleware(['guestByRole'])->group(function () {
     Route::get('/login', Login::class)->name('login');
     Route::get('/register', Register::class)->name('register');
 });
@@ -32,8 +33,8 @@ Route::get('/logout', [Logout::class, 'logout'])->name('logout');
 // Onboarding → hanya untuk user login tapi belum onboarding
 Route::get('/onboarding', Onboarding::class)->name('onboarding')->middleware(['auth', 'onboarding']);
 
-Route::prefix('user')->middleware(['auth', 'onboarded'])->group(function () {
-    Route::get('/', DashboardUser::class)->name('home');
+Route::prefix('user')->middleware(['auth', 'user'])->group(function () {
+    Route::get('/', DashboardUser::class)->name('user.home');
 
     Route::prefix('projects')->group(function () {
         Route::get('/', Project::class)->name('projects.index');
@@ -51,6 +52,10 @@ Route::prefix('user')->middleware(['auth', 'onboarded'])->group(function () {
         Route::get('/', Application::class)->name('applications.index');
         Route::get('/project/{project}', ApplicationByProject::class)->name('applications.byProject');
     });
+});
+
+Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
+    Route::get('/', DashboardAdmin::class)->name('admin.home');
 });
 
 Route::prefix('profile')->middleware(['auth', 'onboarded'])->group(function () {

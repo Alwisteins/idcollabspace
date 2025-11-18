@@ -32,9 +32,11 @@ class Login extends Component
             session()->regenerate();
 
             // Arahkan berdasarkan status onboarding
-            return $user->is_onboarded
-                ? redirect()->route('home')
-                : redirect()->route('onboarding');
+            if ($user->is_onboarded) {
+                return $user->globals_role == 'user' ? redirect()->route('user.home') : redirect()->route('admin.home');
+            } else {
+                return redirect()->route('onboarding');
+            }
         }
 
         return $this->addError('email', 'Email atau password salah.');

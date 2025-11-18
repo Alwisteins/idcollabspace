@@ -64,7 +64,7 @@ class Onboarding extends Component
 
         $user->roles()->sync($this->selectedRoles);
 
-        return redirect()->route('home');
+        return redirect()->route('user.home');
     }
 
     public function render()
