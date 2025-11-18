@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Talents;
+namespace App\Livewire\Users\Talents;
 
 use App\Models\User;
 use Livewire\Component;
@@ -41,6 +41,6 @@ class TalentDetail extends Component
 
     public function render()
     {
-        return view('livewire.talents.talent-detail');
+        return view('livewire.user.talents.talent-detail');
     }
 }

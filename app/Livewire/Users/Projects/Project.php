@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Projects;
+namespace App\Livewire\Users\Projects;
 
 use App\Models\Project as ModelsProject;
 use Illuminate\Support\Facades\Auth;
@@ -62,7 +62,7 @@ class Project extends Component
             $query->where('title', 'like', '%' . $this->search . '%');
         }
 
-        return view('livewire.projects.project', [
+        return view('livewire.user.projects.project', [
             'projects' => $query->paginate(10),
         ]);
     }

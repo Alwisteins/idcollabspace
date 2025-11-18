@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Projects;
+namespace App\Livewire\Users\Projects;
 
 use App\Models\Project;
 use App\Models\Application;
@@ -187,7 +187,7 @@ class ProjectDetail extends Component
 
     public function render()
     {
-        return view('livewire.projects.project-detail', [
+        return view('livewire.user.projects.project-detail', [
             'statusColor' => $this->getStatusColor($this->project->status ?? 'unknown'),
         ]);
     }

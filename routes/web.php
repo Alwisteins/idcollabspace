@@ -1,20 +1,20 @@
 <?php
 
-use App\Livewire\Applications\Application;
-use App\Livewire\Applications\ApplicationByProject;
+use App\Livewire\Users\Applications\Application;
+use App\Livewire\Users\Applications\ApplicationByProject;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Logout;
 use App\Livewire\Auth\Register;
 use App\Livewire\LandingPage;
-use App\Livewire\Projects\ProjectForm;
-use App\Livewire\Dashboard;
+use App\Livewire\Users\Projects\ProjectForm;
+use App\Livewire\Users\DashboardUser;
 use App\Livewire\Onboarding;
 use App\Livewire\Profile\EditProfile;
 use App\Livewire\Profile\Profile;
-use App\Livewire\Projects\Project;
-use App\Livewire\Projects\ProjectDetail;
-use App\Livewire\Talents\Talent;
-use App\Livewire\Talents\TalentDetail;
+use App\Livewire\Users\Projects\Project;
+use App\Livewire\Users\Projects\ProjectDetail;
+use App\Livewire\Users\Talents\Talent;
+use App\Livewire\Users\Talents\TalentDetail;
 use Illuminate\Support\Facades\Route;
 
 //landing page
@@ -32,24 +32,25 @@ Route::get('/logout', [Logout::class, 'logout'])->name('logout');
 // Onboarding → hanya untuk user login tapi belum onboarding
 Route::get('/onboarding', Onboarding::class)->name('onboarding')->middleware(['auth', 'onboarding']);
 
-// Dashboard (Root) → hanya untuk user login + sudah onboarding
-Route::get('/', Dashboard::class)->name('home')->middleware(['auth', 'onboarded']);
+Route::prefix('user')->middleware(['auth', 'onboarded'])->group(function () {
+    Route::get('/', DashboardUser::class)->name('home');
 
-Route::prefix('projects')->middleware(['auth', 'onboarded'])->group(function () {
-    Route::get('/', Project::class)->name('projects.index');
-    Route::get('/create', ProjectForm::class)->name('projects.create');
-    Route::get('/{id}', ProjectDetail::class)->name('projects.show');
-    Route::get('/{project}/edit', ProjectForm::class)->name('projects.edit');
-});
+    Route::prefix('projects')->group(function () {
+        Route::get('/', Project::class)->name('projects.index');
+        Route::get('/create', ProjectForm::class)->name('projects.create');
+        Route::get('/{id}', ProjectDetail::class)->name('projects.show');
+        Route::get('/{project}/edit', ProjectForm::class)->name('projects.edit');
+    });
 
-Route::prefix('talents')->middleware(['auth', 'onboarded'])->group(function () {
-    Route::get('/', Talent::class)->name('talents.index');
-    Route::get('/{id}', TalentDetail::class)->name('talents.show');
-});
+    Route::prefix('talents')->group(function () {
+        Route::get('/', Talent::class)->name('talents.index');
+        Route::get('/{id}', TalentDetail::class)->name('talents.show');
+    });
 
-Route::prefix('applications')->middleware(['auth', 'onboarded'])->group(function () {
-    Route::get('/', Application::class)->name('applications.index');
-    Route::get('/project/{project}', ApplicationByProject::class)->name('applications.byProject');
+    Route::prefix('applications')->group(function () {
+        Route::get('/', Application::class)->name('applications.index');
+        Route::get('/project/{project}', ApplicationByProject::class)->name('applications.byProject');
+    });
 });
 
 Route::prefix('profile')->middleware(['auth', 'onboarded'])->group(function () {

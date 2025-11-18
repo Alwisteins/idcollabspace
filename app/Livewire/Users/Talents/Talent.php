@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Talents;
+namespace App\Livewire\Users\Talents;
 
 use App\Models\User;
 use Livewire\Component;
@@ -34,7 +34,7 @@ class Talent extends Component
                 });
         }
 
-        return view('livewire.talents.talent', [
+        return view('livewire.user.talents.talent', [
             'talents' => $query->paginate(20)
         ]);
     }

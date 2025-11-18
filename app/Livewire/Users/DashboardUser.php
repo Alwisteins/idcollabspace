@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Users;
 
 use App\Models\Application;
 use App\Models\Category;
@@ -8,7 +8,7 @@ use App\Models\Project;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
-class Dashboard extends Component
+class DashboardUser extends Component
 {
     public $labels = [];
     public $data = [];
@@ -56,6 +56,6 @@ class Dashboard extends Component
 
     public function render()
     {
-        return view('livewire.dashboard');
+        return view('livewire.user.dashboard-user');
     }
 }

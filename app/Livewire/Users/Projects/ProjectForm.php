@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Projects;
+namespace App\Livewire\Users\Projects;
 
 use App\Models\Category;
 use App\Models\Project;
@@ -208,7 +208,7 @@ class ProjectForm extends Component
 
     public function render()
     {
-        return view('livewire.projects.project-form', [
+        return view('livewire.user.projects.project-form', [
             'statusColor' => $this->getStatusColor($this->project->status ?? 'unknown'),
         ]);
     }

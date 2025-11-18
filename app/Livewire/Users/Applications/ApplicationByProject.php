@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Applications;
+namespace App\Livewire\Users\Applications;
 
 use App\Models\Project;
 use Livewire\Component;
@@ -44,6 +44,6 @@ class ApplicationByProject extends Component
 
     public function render()
     {
-        return view('livewire.applications.components.received-by-project');
+        return view('livewire.user.applications.components.received-by-project');
     }
 }
