@@ -40,7 +40,8 @@
                 class="block w-96 h-full ps-10 px-5 py-3 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Cari Project..." required />
         </div>
-        <x-button :icon="config('icons.plus')" wire:navigate href="{{ route('projects.create') }}">Buat Project</x-button>
+        <x-button :icon="config('icons.plus')" wire:navigate href="{{ route('projects.create') }}">Buat
+            Project</x-button>
     </div>
 
     {{-- === PROJECT LIST === --}}

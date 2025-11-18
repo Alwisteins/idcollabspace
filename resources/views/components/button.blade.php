@@ -4,6 +4,7 @@
     'icon' => null, // SVG path atau HTML icon component
     'iconPosition' => 'right', // left | right
     'wireTarget' => null,
+    'href' => null,
 ])
 
 @php
@@ -18,30 +19,41 @@
     ];
 @endphp
 
-<button type="{{ $type }}"
-    {{ $attributes->merge(['class' => "$baseClass " . ($variants[$variant] ?? $variants['primary'])]) }}
-    @if ($wireTarget) wire:loading.attr="disabled" wire:target="{{ $wireTarget }}" @endif>
+@if ($href)
+    <a  href="{{ $href }}"
+        {{ $attributes->merge(['class' => "$baseClass " . ($variants[$variant] ?? $variants['primary'])]) }}>
 
-    <span
-        @if ($wireTarget) wire:loading.remove wire:target="{{ $wireTarget }}" @else wire:loading.remove @endif
-        class="flex items-center justify-center">
-        @if ($icon && $iconPosition === 'left')
-            <span class="me-2">{!! $icon !!}</span>
-        @endif
-        {{ $slot }}
-        @if ($icon && $iconPosition === 'right')
-            <span class="ms-2">{!! $icon !!}</span>
-        @endif
-    </span>
+        <span class="flex items-center justify-center">
+            @if ($icon && $iconPosition === 'left')
+                <span class="me-2">{!! $icon !!}</span>
+            @endif
+            {{ $slot }}
+            @if ($icon && $iconPosition === 'right')
+                <span class="ms-2">{!! $icon !!}</span>
+            @endif
+        </span>
+    </a>
+@else
+    <button type="{{ $type }}"
+        {{ $attributes->merge(['class' => "$baseClass " . ($variants[$variant] ?? $variants['primary'])]) }}>
 
-    <span
-        @if ($wireTarget) wire:loading.flex wire:target="{{ $wireTarget }}" @else wire:loading.flex @endif
-        class="flex items-center justify-center">
+        <span class="flex items-center justify-center">
+            @if ($icon && $iconPosition === 'left')
+                <span class="me-2">{!! $icon !!}</span>
+            @endif
+            {{ $slot }}
+            @if ($icon && $iconPosition === 'right')
+                <span class="ms-2">{!! $icon !!}</span>
+            @endif
+        </span>
+
+        {{-- <span class="flex items-center justify-center">
         <svg class="w-4 h-4 animate-spin me-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
             </circle>
             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
         </svg>
         Loading...
-    </span>
-</button>
+    </span> --}}
+    </button>
+@endif

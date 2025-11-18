@@ -36,7 +36,7 @@
             </div>
             <div>
                 <p class="text-gray-500 text-sm">Lamaran Masuk</p>
-                <p class="font-bold text-2xl text-gray-800">{{ $applicationsReceived->count() }}</p>
+                <p class="font-bold text-2xl text-gray-800">{{ array_sum($applicationsReceived) }}</p>
             </div>
         </div>
 

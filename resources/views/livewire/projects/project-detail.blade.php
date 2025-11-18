@@ -1,6 +1,6 @@
 <div class="p-6">
     <div class="flex justify-between items-center">
-        <x-button wire:navigate wireTarget="kembali" href="{{ route('projects.index') }}" :icon="config('icons.arrow-left-circle')"
+        <x-button wire:navigate href="{{ route('projects.index') }}" :icon="config('icons.arrow-left-circle')"
             iconPosition="left">Kembali</x-button>
         <x-breadcrumb :links="[
             ['label' => 'Home', 'url' => route('home')],

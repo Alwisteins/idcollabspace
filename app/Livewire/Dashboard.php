@@ -33,15 +33,24 @@ class Dashboard extends Component
             ->selectRaw('COUNT(*) as total')
             ->groupBy('status')
             ->pluck('total', 'status');
+
         // hasil array urut
         $this->applicationsSent = [
             $sentStatuses['pending'] ?? 0,
             $sentStatuses['accepted'] ?? 0,
             $sentStatuses['rejected'] ?? 0,
         ];
-        $this->applicationsReceived = Application::whereHas('project', function ($q) {
+
+        $receivedStatuses = Application::whereHas('project', function ($q) {
             $q->where('owner_id', Auth::id());
-        })->get();
+        })->pluck('status')->countBy();
+
+        $this->applicationsReceived = [
+            $receivedStatuses->get('pending', 0),
+            $receivedStatuses->get('accepted', 0),
+            $receivedStatuses->get('rejected', 0),
+        ];
+
         $this->createdProjects = Project::where('owner_id', Auth::id())->count();
     }
 
