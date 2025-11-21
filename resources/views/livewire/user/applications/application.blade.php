@@ -22,9 +22,9 @@
     </div>
 
     @if (request()->type == 'sent')
-        @include('livewire.applications.components.sent')
+        @include('livewire.user.applications.components.sent')
     @elseif (request()->type == 'received')
-        @include('livewire.applications.components.received')
+        @include('livewire.user.applications.components.received')
     @endif
 
     @if (session('success'))

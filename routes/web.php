@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\Admin\DashboardAdmin;
+use App\Livewire\Admin\Roles\Role;
 use App\Livewire\Users\Applications\Application;
 use App\Livewire\Users\Applications\ApplicationByProject;
 use App\Livewire\Auth\Login;
@@ -56,6 +57,10 @@ Route::prefix('user')->middleware(['auth', 'user'])->group(function () {
 
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/', DashboardAdmin::class)->name('admin.home');
+
+    Route::prefix('roles')->group(function () {
+        Route::get('/', Role::class)->name('admin.roles.index');
+    });
 });
 
 Route::prefix('profile')->middleware(['auth', 'onboarded'])->group(function () {

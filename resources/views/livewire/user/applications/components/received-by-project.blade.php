@@ -3,7 +3,7 @@
         <x-button wire:navigate wireTarget="kembali" href="{{ route('applications.index', ['type' => 'received']) }}"
             :icon="config('icons.arrow-left-circle')" iconPosition="left">Kembali</x-button>
         <x-breadcrumb :links="[
-            ['label' => 'Home', 'url' => route('home')],
+            ['label' => 'Home', 'url' => route('user.home')],
             ['label' => 'Applications', 'url' => route('applications.index', ['type' => 'received'])],
             ['label' => 'Detail'],
         ]" />

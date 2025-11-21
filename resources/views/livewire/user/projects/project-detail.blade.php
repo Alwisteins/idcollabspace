@@ -3,7 +3,7 @@
         <x-button wire:navigate href="{{ route('projects.index') }}" :icon="config('icons.arrow-left-circle')"
             iconPosition="left">Kembali</x-button>
         <x-breadcrumb :links="[
-            ['label' => 'Home', 'url' => route('home')],
+            ['label' => 'Home', 'url' => route('user.home')],
             ['label' => 'Projects', 'url' => route('projects.index')],
             ['label' => 'Detail'],
         ]" />

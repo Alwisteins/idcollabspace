@@ -10,6 +10,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <style>
@@ -20,6 +21,7 @@
             font-family: 'Space Grotesk', sans-serif;
         }
     </style>
+    @livewireStyles
 </head>
 
 <body class="bg-stone-50 dark:bg-gray-900">

@@ -20,10 +20,10 @@
 @endphp
 
 @if ($href)
-    <a  href="{{ $href }}"
+    <a href="{{ $href }}"
         {{ $attributes->merge(['class' => "$baseClass " . ($variants[$variant] ?? $variants['primary'])]) }}>
 
-        <span class="flex items-center justify-center">
+        <span class="flex items-center justify-center h-full">
             @if ($icon && $iconPosition === 'left')
                 <span class="me-2">{!! $icon !!}</span>
             @endif
