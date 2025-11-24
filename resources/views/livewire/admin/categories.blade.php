@@ -7,7 +7,6 @@
     @if (session()->has('error'))
         <x-flash-message type="error" message="{{ session('error') }}" />
     @endif
-
     <div class="p-6 space-y-6">
 
         {{-- === SEARCH BAR + CREATE BUTTON === --}}
@@ -24,11 +23,11 @@
                 </div>
                 <input type="search" wire:model.live.debounce.500ms="search"
                     class="block w-full sm:w-96 pl-10 px-5 py-3 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-600 focus:border-blue-600 transition"
-                    placeholder="Cari Role..." />
+                    placeholder="Cari Kategori..." />
             </div>
 
             {{-- Create Button --}}
-            <x-button wire:click="openModal" :icon="config('icons.plus')">Tambah Role</x-button>
+            <x-button wire:click="openModal" :icon="config('icons.plus')">Tambah Kategori</x-button>
         </div>
 
 
@@ -44,7 +43,7 @@
                             </th>
 
                             <th class="px-6 py-4 text-center text-xs font-semibold uppercase tracking-wider">
-                                Digunakan oleh
+                                Digunakan di
                             </th>
 
                             <th class="px-6 py-4 text-center text-xs font-semibold uppercase tracking-wider">
@@ -54,32 +53,38 @@
                     </thead>
 
                     <tbody class="divide-y divide-gray-200 bg-white">
-                        @forelse ($roles as $role)
+                        @forelse ($categories as $category)
                             <tr class="hover:bg-gray-50 transition">
 
                                 <td class="px-6 py-4 text-sm font-medium text-gray-900">
                                     <div class="flex items-center gap-2">
                                         <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
-                                            <svg class="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                                                <path
-                                                    d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                fill="currentColor" class="w-4 h-4 text-blue-600">
+                                                <path fill-rule="evenodd"
+                                                    d="M1.5 7.125c0-1.036.84-1.875 1.875-1.875h6c1.036 0 1.875.84 1.875 1.875v3.75c0 1.036-.84 1.875-1.875 1.875h-6A1.875 1.875 0 0 1 1.5 10.875v-3.75Zm12 1.5c0-1.036.84-1.875 1.875-1.875h5.25c1.035 0 1.875.84 1.875 1.875v8.25c0 1.035-.84 1.875-1.875 1.875h-5.25a1.875 1.875 0 0 1-1.875-1.875v-8.25ZM3 16.125c0-1.036.84-1.875 1.875-1.875h5.25c1.036 0 1.875.84 1.875 1.875v2.25c0 1.035-.84 1.875-1.875 1.875h-5.25A1.875 1.875 0 0 1 3 18.375v-2.25Z"
+                                                    clip-rule="evenodd" />
                                             </svg>
+
                                         </div>
-                                        <span>{{ $role->name }}</span>
+                                        <span>{{ $category->name }}</span>
                                     </div>
                                 </td>
 
                                 <td class="px-6 py-4 text-sm text-center">
                                     <span
                                         class="inline-flex items-center justify-between w-2/3 gap-2 px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 border border-blue-200">
-                                        <svg class="w-4 h-4 shrink-0" width="16" height="16" viewBox="0 0 20 20"
-                                            fill="currentColor">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" width="16"
+                                            height="16" viewBox="0 0 24 24" fill="currentColor">
+                                            <path fill-rule="evenodd"
+                                                d="M7.5 5.25a3 3 0 0 1 3-3h3a3 3 0 0 1 3 3v.205c.933.085 1.857.197 2.774.334 1.454.218 2.476 1.483 2.476 2.917v3.033c0 1.211-.734 2.352-1.936 2.752A24.726 24.726 0 0 1 12 15.75c-2.73 0-5.357-.442-7.814-1.259-1.202-.4-1.936-1.541-1.936-2.752V8.706c0-1.434 1.022-2.7 2.476-2.917A48.814 48.814 0 0 1 7.5 5.455V5.25Zm7.5 0v.09a49.488 49.488 0 0 0-6 0v-.09a1.5 1.5 0 0 1 1.5-1.5h3a1.5 1.5 0 0 1 1.5 1.5Zm-3 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
+                                                clip-rule="evenodd" />
                                             <path
-                                                d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+                                                d="M3 18.4v-2.796a4.3 4.3 0 0 0 .713.31A26.226 26.226 0 0 0 12 17.25c2.892 0 5.68-.468 8.287-1.335.252-.084.49-.189.713-.311V18.4c0 1.452-1.047 2.728-2.523 2.923-2.12.282-4.282.427-6.477.427a49.19 49.19 0 0 1-6.477-.427C4.047 21.128 3 19.852 3 18.4Z" />
                                         </svg>
-
-                                        <span class="font-semibold">{{ $role->users_count }}</span>
-                                        <span class="text-xs">{{ $role->users_count === 1 ? 'user' : 'users' }}</span>
+                                        <span class="font-semibold">{{ $category->projects_count }}</span>
+                                        <span
+                                            class="text-xs">{{ $category->projects_count === 1 ? 'project' : 'projects' }}</span>
                                     </span>
                                 </td>
 
@@ -87,7 +92,7 @@
                                     <div class="flex gap-2 justify-center">
 
                                         {{-- EDIT --}}
-                                        <button wire:click="edit({{ $role->id }})"
+                                        <button wire:click="edit({{ $category->id }})"
                                             class="flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-lg bg-green-600 hover:bg-green-700 text-white transition transform hover:scale-105 shadow-md hover:shadow-lg">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
@@ -98,10 +103,10 @@
                                         </button>
 
                                         {{-- DELETE --}}
-                                        <button x-on:click="$dispatch('confirm-delete', { id: {{ $role->id }} })"
-                                            @disabled($role->users_count > 0)
+                                        <button x-on:click="$dispatch('confirm-delete', { id: {{ $category->id }} })"
+                                            @disabled($category->projects_count > 0)
                                             class="flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-lg text-white bg-red-600 hover:bg-red-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition transform hover:scale-105 shadow-md hover:shadow-lg disabled:transform-none disabled:shadow-none"
-                                            title="{{ $role->users_count > 0 ? 'Role tidak dapat dihapus karena masih digunakan' : 'Hapus role' }}">
+                                            title="{{ $category->projects_count > 0 ? 'Kategori tidak dapat dihapus karena masih digunakan' : 'Hapus kategori' }}">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -122,7 +127,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
                                         </svg>
-                                        <p class="text-lg font-semibold text-gray-700 mb-1">Tidak ada role yang
+                                        <p class="text-lg font-semibold text-gray-700 mb-1">Tidak ada kategori yang
                                             ditemukan
                                         </p>
                                         @if ($search)
@@ -131,10 +136,10 @@
                                                 tidak
                                                 menemukan hasil</p>
                                         @else
-                                            <p class="text-sm text-gray-500 mb-4">Belum ada role yang dibuat</p>
+                                            <p class="text-sm text-gray-500 mb-4">Belum ada kategori yang dibuat</p>
                                             <button wire:click="openModal"
                                                 class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg transition">
-                                                Tambah Role Pertama
+                                                Tambah Kategori Pertama
                                             </button>
                                         @endif
                                     </div>
@@ -146,34 +151,26 @@
             </div>
 
             {{-- Pagination --}}
-            @if ($roles->hasPages())
+            @if ($categories->hasPages())
                 <div class="border-t border-gray-200">
-                    {{ $roles->links('components.pagination') }}
+                    {{ $categories->links('components.pagination') }}
                 </div>
             @endif
         </div>
     </div>
 
-
-
-    {{-- === ROLE MODAL === --}}
+    {{-- === CATEGORY MODAL === --}}
     @if ($showModal)
-        <x-role-modal roleId="{{ $roleId }}" />
+        <x-category-modal categoryId="{{ $categoryId }}" />
     @endif
 
-    {{-- Custom CSS for x-cloak --}}
-    <style>
-        [x-cloak] {
-            display: none !important;
-        }
-    </style>
     <script>
         document.addEventListener('confirm-delete', function(event) {
             const id = event.detail.id;
 
             Swal.fire({
                 title: 'Yakin ingin menghapus?',
-                text: "Data role tidak dapat dipulihkan!",
+                text: "Data kategori tidak dapat dipulihkan!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#e3342f',
@@ -182,7 +179,7 @@
                 cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Livewire.dispatch('delete-role', {
+                    Livewire.dispatch('delete-kategori', {
                         id: id
                     })
                 }

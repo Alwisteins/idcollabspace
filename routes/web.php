@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Admin\Category;
 use App\Livewire\Admin\DashboardAdmin;
 use App\Livewire\Admin\Roles\Role;
 use App\Livewire\Users\Applications\Application;
@@ -60,6 +61,9 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 
     Route::prefix('roles')->group(function () {
         Route::get('/', Role::class)->name('admin.roles.index');
+    });
+    Route::prefix('categories')->group(function () {
+        Route::get('/', Category::class)->name('admin.categories.index');
     });
 });
 
