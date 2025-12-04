@@ -13,7 +13,7 @@
         class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
         aria-label="Sidebar">
         <div class="h-full px-3 py-4 overflow-y-auto bg-white dark:bg-gray-800">
-            <a wire:navigate href="{{ route('welcome') }}"
+            <a href="{{ route('welcome') }}"
                 class="flex items-center mb-6 text-lg font-semibold text-blue-500 dark:text-white">
                 <img class="w-8 h-8 mr-2" src="{{ asset('images/logo.png') }}" alt="logo">
                 IDCollabSpace
@@ -34,7 +34,7 @@
                         </a>
                     </li>
                     <li>
-                        <a wire:navigate href="{{ route('projects.index') }}"
+                        <a href="{{ route('projects.index') }}"
                             class="{{ request()->routeIs('projects.*') ? 'bg-gray-100 text-blue-600' : 'text-gray-900' }} flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -46,7 +46,7 @@
                         </a>
                     </li>
                     <li>
-                        <a wire:navigate href="{{ route('talents.index') }}"
+                        <a href="{{ route('talents.index') }}"
                             class="{{ request()->routeIs('talents.*') ? 'bg-gray-100 text-blue-600' : 'text-gray-900' }} flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -58,7 +58,7 @@
                         </a>
                     </li>
                     <li>
-                        <a wire:navigate href="{{ route('applications.index', ['type' => 'received']) }}"
+                        <a href="{{ route('applications.index', ['type' => 'received']) }}"
                             class="{{ request()->routeIs('applications.*') ? 'bg-gray-100 text-blue-600' : 'text-gray-900' }} flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -120,7 +120,7 @@
 
                         <span class="ms-3">Profile</span>
                     </a> --}}
-                    <a href="{{ route('profile.show') }}" wire:navigate
+                    <a href="{{ route('profile.show') }}"
                         class="{{ request()->routeIs('profile.*') ? 'bg-gray-100 text-blue-600' : 'text-gray-900' }} flex items-center p-2 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
                         @if (auth()->user()->avatar)
                             <img src="{{ auth()->user()->avatar }}" alt="{{ auth()->user()->name }}"
@@ -137,7 +137,7 @@
                     </a>
                 </li>
                 <li>
-                    <a wire:navigate href="{{ route('logout') }}"
+                    <a href="{{ route('logout') }}"
                         class="text-red-600 flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                             stroke-width="1.5" stroke="currentColor" class="size-6">
