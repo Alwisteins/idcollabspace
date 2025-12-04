@@ -50,7 +50,7 @@
             <p class="text-center text-gray-600 col-span-2">Tidak ada proyek untuk saat ini.</p>
         @else
             @foreach ($projects as $project)
-                <div wire:navigate href="{{ route('projects.show', $project->id) }}"
+                <div wire:navigate href="{{ route('projects.show', $project) }}"
                     class="bg-white rounded-2xl p-6 hover:cursor-pointer hover:shadow-xl transition-all border border-gray-200 group hover:-translate-y-1">
                     <div class="flex justify-end">
                         <span

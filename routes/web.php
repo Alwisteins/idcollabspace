@@ -3,21 +3,22 @@
 use App\Livewire\Admin\Category;
 use App\Livewire\Admin\DashboardAdmin;
 use App\Livewire\Admin\Roles\Role;
-use App\Livewire\Users\Applications\Application;
-use App\Livewire\Users\Applications\ApplicationByProject;
+use App\Livewire\User\Applications\Application;
+use App\Livewire\User\Applications\Components\ReceivedByProject;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Logout;
 use App\Livewire\Auth\Register;
 use App\Livewire\LandingPage;
-use App\Livewire\Users\Projects\ProjectForm;
-use App\Livewire\Users\DashboardUser;
+use App\Livewire\User\Projects\ProjectForm;
+use App\Livewire\User\DashboardUser;
 use App\Livewire\Onboarding;
 use App\Livewire\Profile\EditProfile;
 use App\Livewire\Profile\Profile;
-use App\Livewire\Users\Projects\Project;
-use App\Livewire\Users\Projects\ProjectDetail;
-use App\Livewire\Users\Talents\Talent;
-use App\Livewire\Users\Talents\TalentDetail;
+use App\Livewire\User\Projects\Project;
+use App\Livewire\User\Projects\ProjectDetail;
+use App\Livewire\User\Projects\Workspace;
+use App\Livewire\User\Talents\Talent;
+use App\Livewire\User\Talents\TalentDetail;
 use Illuminate\Support\Facades\Route;
 
 //landing page
@@ -41,8 +42,9 @@ Route::prefix('user')->middleware(['auth', 'user'])->group(function () {
     Route::prefix('projects')->group(function () {
         Route::get('/', Project::class)->name('projects.index');
         Route::get('/create', ProjectForm::class)->name('projects.create');
-        Route::get('/{id}', ProjectDetail::class)->name('projects.show');
+        Route::get('/{project}', ProjectDetail::class)->name('projects.show');
         Route::get('/{project}/edit', ProjectForm::class)->name('projects.edit');
+        Route::get('/{project}/workspace', Workspace::class)->name('projects.workspace');
     });
 
     Route::prefix('talents')->group(function () {
@@ -52,7 +54,7 @@ Route::prefix('user')->middleware(['auth', 'user'])->group(function () {
 
     Route::prefix('applications')->group(function () {
         Route::get('/', Application::class)->name('applications.index');
-        Route::get('/project/{project}', ApplicationByProject::class)->name('applications.byProject');
+        Route::get('/project/{project}', ReceivedByProject::class)->name('applications.byProject');
     });
 });
 

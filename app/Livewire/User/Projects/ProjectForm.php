@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Users\Projects;
+namespace App\Livewire\User\Projects;
 
 use App\Models\Category;
 use App\Models\Project;

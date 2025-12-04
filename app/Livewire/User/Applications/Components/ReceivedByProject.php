@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Livewire\Users\Applications;
+namespace App\Livewire\User\Applications\Components;
 
+use App\Models\Application;
 use App\Models\Project;
+use App\Models\ProjectMember;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
-class ApplicationByProject extends Component
+class ReceivedByProject extends Component
 {
     public $project;
 
@@ -26,11 +29,21 @@ class ApplicationByProject extends Component
 
     public function acceptApplication($applicationId)
     {
-        $application = $this->project->applications->find($applicationId);
-        if ($application) {
-            $application->update(['status' => 'accepted']);
-            $this->project->refresh();
-        }
+        $application = Application::findOrFail($applicationId);
+
+        // create member
+        ProjectMember::create([
+            'project_id' => $this->project->id,
+            'project_role_id' => $application->project_role_id,
+            'user_id' => $application->user_id,
+            'joined_at' => now(),
+        ]);
+
+        $application->status = 'accepted';
+        $application->save();
+
+        session()->flash('success', 'Pelamar diterima dan ditambahkan sebagai anggota.');
+        $this->project->refresh();
     }
 
     public function rejectApplication($applicationId)

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Users\Projects;
+namespace App\Livewire\User\Projects;
 
 use App\Models\Project as ModelsProject;
 use Illuminate\Support\Facades\Auth;
@@ -43,7 +43,7 @@ class Project extends Component
             default => 'bg-gray-100 text-gray-700',
         };
     }
-
+    
     // --- RENDER ---
     public function render()
     {

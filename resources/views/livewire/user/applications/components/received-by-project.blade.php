@@ -55,39 +55,49 @@
                         </p>
                     </div>
 
-
-                    <div x-data="{ showMessageModal: false }" class="flex items-center justify-end gap-2">
-                        <button @click="showMessageModal = true" class="text-xs px-4 py-2 rounded-md border">Lihat
-                            Pesan</button>
+                    <div
+                        class="flex items-center gap-2 {{ $application->status === 'pending' ? 'justify-end' : 'justify-between' }}">
+                        <button @click="$dispatch('open-modal-{{ $application->id }}')" type="button"
+                            class="text-xs px-4 py-2 w-fit rounded-md border hover:bg-gray-50 transition">
+                            Lihat Pesan
+                        </button>
                         @if ($application->status === 'pending')
-                            <button wire:click="rejectApplication({{ $application->id }})"
+                            <button wire:click.prevent="rejectApplication({{ $application->id }})"
                                 class="text-xs px-4 py-2 rounded-md border border-red-200 text-red-600 hover:bg-red-50 transition">
                                 Tolak
                             </button>
-                            <button wire:click="acceptApplication({{ $application->id }})"
-                                class="text-xs px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition">
+                            <button wire:click.prevent="acceptApplication({{ $application->id }})"
+                                class="text-xs px-4 py-2 rounded-mdbg-blue-600 text-white hover:bg-blue-700 transition">
                                 Terima
                             </button>
                         @else
-                            <p class="text-xs text-gray-400 italic text-right">Lamaran ini sudah
+                            <p class="text-xs text-gray-400 italic text-right w-1/2">Lamaran ini sudah
                                 {{ $application->status }}.</p>
                         @endif
 
-                        <div x-show="showMessageModal" class="fixed inset-0 z-50 flex items-center justify-center">
+                        <div x-data="{ show: false }" @open-modal-{{ $application->id }}.window="show = true"
+                            x-show="show" x-cloak style="display: none;"
+                            class="fixed inset-0 z-50 flex items-center justify-center">
+
                             <!-- Overlay -->
-                            <div class="absolute inset-0 bg-black/40 backdrop-blur-sm"
-                                @click="showMessageModal = false">
+                            <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" @click="show = false">
                             </div>
 
                             <!-- Modal Card -->
-                            <div
-                                class="relative bg-white w-full max-w-md rounded-2xl shadow-2xl p-6 z-10 border border-gray-100">
-                                <div>
-                                    <h4 class="text-sm font-semibold text-gray-700 mb-1">Pesan Lamaran</h4>
-                                    <p
-                                        class="text-gray-700 bg-gray-50 border border-gray-100 rounded-lg p-3 leading-relaxed text-sm">
-                                        {{ $application->message ?? '-' }}
-                                    </p>
+                            <div class="relative bg-white w-full max-w-md rounded-2xl shadow-2xl p-6 z-10 border border-gray-100"
+                                @click.stop>
+                                <div class="flex justify-between items-start mb-4">
+                                    <h4 class="text-lg font-semibold text-gray-800">Pesan Lamaran</h4>
+                                    <button @click="show = false" class="text-gray-400 hover:text-gray-600">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div
+                                    class="text-gray-700 bg-gray-50 border border-gray-100 rounded-lg p-4 leading-relaxed text-sm max-h-96 overflow-y-auto">
+                                    {{ $application->message ?? 'Tidak ada pesan.' }}
                                 </div>
                             </div>
                         </div>

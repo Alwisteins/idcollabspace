@@ -10,93 +10,145 @@
     </div>
     <div class="max-w-6xl mt-6 mx-auto bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
         {{-- Header & Meta --}}
-        <div class="flex justify-between items-start gap-4 p-4 rounded-xl border">
-            <div>
-                <div class="flex items-center gap-4">
-                    <div
-                        class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-bold text-lg">
-                        @if ($project->owner && $project->owner->name)
-                            {{ strtoupper(substr($project->owner->name, 0, 1)) }}
-                        @endif
+        <div class="rounded-xl border">
+            @if (auth()->id() === $project->owner_id)
+                <div
+                    class="p-4 border rounded-t-lg bg-gray-50 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+
+                    {{-- Dropdown Status --}}
+                    <div class="flex items-center gap-3">
+                        <label class="text-sm font-semibold text-gray-700">Status Proyek:</label>
+                        <select wire:change="updateStatus($event.target.value)"
+                            class="w-40 px-3 py-2 text-sm rounded-lg border border-gray-300 bg-white text-gray-700 
+         focus:ring-2 focus:ring-blue-500 shadow-sm transition cursor-pointer">
+                            <option value="open" {{ $project->status === 'open' ? 'selected' : '' }}>Open
+                            </option>
+                            <option value="in progress" {{ $project->status === 'in progress' ? 'selected' : '' }}>
+                                In
+                                Progress</option>
+                            <option value="completed" {{ $project->status === 'completed' ? 'selected' : '' }}>
+                                Completed
+                            </option>
+                        </select>
                     </div>
-                    <div>
-                        <h1 class="text-2xl font-bold text-gray-900">{{ $project->title }}</h1>
-                        <div class="text-sm text-gray-500 mt-1">
-                            <span
-                                class="px-2 py-1 rounded-md text-xs font-semibold {{ $statusColor }}">{{ $project->status }}</span>
-                            <span
-                                class="mx-2 px-2 py-1 rounded-md text-xs font-semibold bg-blue-100 text-blue-600">{{ $project->category?->name ?? 'Uncategorized' }}</span>
-                            <span>dibuat {{ $project->created_at->format('d M Y') }}</span>
+
+                    {{-- Tutup Recruitment --}}
+                    @if ($project->status === 'open')
+                        <button wire:click="closeRecruitment"
+                            class="px-4 py-2 text-sm rounded-lg bg-yellow-100 text-yellow-800 font-medium hover:bg-yellow-200 
+     border border-yellow-200 flex items-center gap-2 transition">
+                            <x-icon name="lock" class="w-4" />
+                            Tutup Recruitment
+                        </button>
+                    @endif
+
+                </div>
+            @endif
+            <div class="p-4 flex justify-between items-start gap-4">
+                {{-- Project Header --}}
+                <div>
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-bold text-lg">
+                            @if ($project->owner && $project->owner->name)
+                                {{ strtoupper(substr($project->owner->name, 0, 1)) }}
+                            @endif
+                        </div>
+                        <div>
+                            <h1 class="text-2xl font-bold text-gray-900">{{ $project->title }}</h1>
+                            <div class="text-sm text-gray-500 mt-1">
+                                <span
+                                    class="px-2 py-1 rounded-md text-xs font-semibold {{ $statusColor }}">{{ $project->status }}</span>
+                                <span
+                                    class="mx-2 px-2 py-1 rounded-md text-xs font-semibold bg-blue-100 text-blue-600">{{ $project->category?->name ?? 'Uncategorized' }}</span>
+                                <span>dibuat {{ $project->created_at->format('d M Y') }}</span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <p class="mt-4 text-gray-700 text-sm">{{ $project->description }}</p>
+                    <p class="mt-4 text-gray-700 text-sm">{{ $project->description }}</p>
 
-                {{-- Project Info: Payment & Timeline --}}
-                <div class="mt-5 flex flex-wrap gap-4 text-sm text-gray-700">
-                    <div class="flex items-center gap-2">
-                        <span class="font-semibold">💰 Tipe Proyek:</span>
-                        <span class="{{ $project->is_paid ? 'text-green-600 font-medium' : 'text-gray-500' }}">
-                            {{ $project->is_paid ? 'Berbayar' : 'Non-Bayar / Volunteer' }}
-                        </span>
+                    {{-- Project Info: Payment & Timeline --}}
+                    <div class="mt-5 flex flex-wrap gap-4 text-sm text-gray-700">
+                        <div class="flex items-center gap-2">
+                            <span class="font-semibold">💰 Tipe Proyek:</span>
+                            <span class="{{ $project->is_paid ? 'text-green-600 font-medium' : 'text-gray-500' }}">
+                                {{ $project->is_paid ? 'Berbayar' : 'Non-Bayar / Volunteer' }}
+                            </span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-semibold">🗓️ Timeline:</span>
+                            @if ($project->start_date && $project->end_date)
+                                <span>{{ \Carbon\Carbon::parse($project->start_date)->format('d M Y') }}
+                                    - {{ \Carbon\Carbon::parse($project->end_date)->format('d M Y') }}</span>
+                            @else
+                                <span class="text-gray-500">Belum ditentukan</span>
+                            @endif
+                        </div>
                     </div>
-                    <div class="flex items-center gap-2">
-                        <span class="font-semibold">🗓️ Timeline:</span>
-                        @if ($project->start_date && $project->end_date)
-                            <span>{{ \Carbon\Carbon::parse($project->start_date)->format('d M Y') }}
-                                - {{ \Carbon\Carbon::parse($project->end_date)->format('d M Y') }}</span>
-                        @else
-                            <span class="text-gray-500">Belum ditentukan</span>
+
+                    {{-- PRIMARY ACTION BUTTONS --}}
+                    <div class="mt-6 flex flex-col sm:flex-row gap-3">
+                        @php
+                            $userIsMember = $project->members->contains('user_id', auth()->id());
+                            $userIsOwner = auth()->id() === $project->owner_id;
+                        @endphp
+                        {{-- Workspace Button --}}
+                        @if ($userIsOwner || $userIsMember)
+                            <x-button wire:navigate href="{{ route('projects.workspace', $project) }}"
+                                class="!bg-indigo-600 hover:!bg-indigo-700 !text-white shadow-sm w-full sm:w-auto">
+                                Masuk Workspace
+                            </x-button>
+                        @endif
+
+                        {{-- Edit & Delete --}}
+                        @if (auth()->id() === $project->owner_id)
+                            <x-button variant="success" wire:navigate href="{{ route('projects.edit', $project) }}"
+                                class="w-full sm:w-auto">
+                                Edit Project
+                            </x-button>
+
+                            <x-button variant="danger" wire:click="delete({{ $project->id }})"
+                                class="w-full sm:w-auto">
+                                Hapus Project
+                            </x-button>
+                        @endif
+                        @php $userApplied = $project->applications->where('user_id', auth()->id())->count() > 0; @endphp
+                        {{-- Already Applied Badge --}}
+                        @if ($userApplied)
+                            <span
+                                class="px-4 py-2 bg-yellow-50 text-yellow-700 rounded-lg border border-yellow-200 text-center w-full sm:w-fit">
+                                Kamu sudah melamar
+                            </span>
                         @endif
                     </div>
                 </div>
 
-                {{-- Action Buttons --}}
-                <div class="mt-4 flex items-center gap-3">
-                    @if (auth()->id() === $project->owner_id)
-                        <x-button variant="success" wireTarget="edit" wire:navigate
-                            href="{{ route('projects.edit', $project) }}">Edit Project</x-button>
-                        <x-button variant="danger" wireTarget="delete({{ $project->id }})"
-                            wire:click="delete({{ $project->id }})">Hapus
-                            Project</x-button>
-                    @endif
-
-                    {{-- Check if user already applied any role --}}
-                    @php
-                        $userApplied = $project->applications->where('user_id', auth()->id())->count() > 0;
-                    @endphp
-
-                    @if ($userApplied)
-                        <span class="px-4 py-2 bg-yellow-50 text-yellow-700 rounded-lg border border-yellow-200">Kamu
-                            sudah melamar</span>
-                    @endif
-                </div>
-            </div>
-
-            {{-- Owner Card --}}
-            <div>
-                <h4 class="text-md font-semibold text-gray-800">Dibuat Oleh</h4>
-                <div class="w-64 mt-3">
-                    <div class="flex items-center gap-1 bg-stone-100 p-2 border rounded-lg">
-                        @if ($project->owner?->avatar)
-                            <img src="{{ $project->owner?->avatar }}" alt="{{ $project->owner?->name }}"
-                                class="w-6 h-6 rounded-full" />
-                        @else
-                            <div
-                                class="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
-                                <h3 class="text-2xl font-bold text-white">
-                                    {{ strtoupper(substr($project->owner?->name, 0, 1)) }}
-                                </h3>
+                {{-- Owner Card --}}
+                <div>
+                    <h4 class="text-md font-semibold text-gray-800">Dibuat Oleh</h4>
+                    <div class="w-64 mt-3">
+                        <div class="flex items-center gap-1 bg-stone-100 p-2 border rounded-lg">
+                            @if ($project->owner?->avatar)
+                                <img src="{{ $project->owner?->avatar }}" alt="{{ $project->owner?->name }}"
+                                    class="w-6 h-6 rounded-full" />
+                            @else
+                                <div
+                                    class="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
+                                    <h3 class="text-2xl font-bold text-white">
+                                        {{ strtoupper(substr($project->owner?->name, 0, 1)) }}
+                                    </h3>
+                                </div>
+                            @endif
+                            <div>
+                                <div class="font-semibold text-sm">{{ $project->owner?->name ?? '—' }}</div>
                             </div>
-                        @endif
-                        <div>
-                            <div class="font-semibold text-sm">{{ $project->owner?->name ?? '—' }}</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
 
         {{-- Roles Section --}}
         <div id="roles" class="mt-6 pt-4 border-t border-gray-200">

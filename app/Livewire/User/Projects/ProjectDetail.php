@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Users\Projects;
+namespace App\Livewire\User\Projects;
 
 use App\Models\Project;
 use App\Models\Application;
@@ -24,9 +24,9 @@ class ProjectDetail extends Component
         'refreshProject' => 'loadProject'
     ];
 
-    public function mount($id)
+    public function mount($project)
     {
-        $this->projectId = $id;
+        $this->projectId = $project->id;
         $this->loadProject();
     }
 
@@ -53,6 +53,21 @@ class ProjectDetail extends Component
             default => 'bg-gray-100 text-gray-700',
         };
     }
+
+    public function updateStatus($newStatus)
+    {
+
+        if (Auth::id() !== $this->project->owner_id) {
+            abort(403);
+        }
+
+        $this->project->status = $newStatus;
+        $this->project->save();
+
+        session()->flash('success', 'Status proyek berhasil diperbarui.');
+        $this->loadProject();
+    }
+
 
     public function openApplyModal($projectRoleId)
     {
@@ -170,6 +185,17 @@ class ProjectDetail extends Component
         session()->flash('success', 'Pelamar ditolak.');
         $this->loadProject();
     }
+
+    public function closeRecruitment()
+    {
+        if (Auth::id() !== $this->project->owner_id) abort(403);
+
+        $this->project->status = 'in progress';
+        $this->project->save();
+
+        session()->flash('success', 'Recruitment ditutup, proyek dimulai.');
+    }
+
 
     public function delete($projectId)
     {
