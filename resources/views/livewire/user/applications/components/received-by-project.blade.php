@@ -20,7 +20,8 @@
     @else
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach ($project->applications as $application)
-                <div class="bg-white border rounded-2xl p-5 shadow-sm hover:shadow-md transition">
+                <a href="{{ route('talents.show', $application->user->id) }}"
+                    class="bg-white cursor-pointer border rounded-2xl p-5 shadow-sm hover:shadow-md transition">
                     <div class="flex justify-between items-center mb-3">
                         <span class="text-xs text-gray-400">{{ $application->created_at->diffForHumans() }}</span>
                         <span
@@ -103,7 +104,7 @@
                         </div>
                     </div>
 
-                </div>
+                </a>
             @endforeach
         </div>
     @endif
