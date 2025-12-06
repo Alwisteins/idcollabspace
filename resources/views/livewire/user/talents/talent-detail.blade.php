@@ -1,5 +1,14 @@
 <div class="p-6">
-    <div class="bg-white rounded-2xl p-6 border border-gray-200">
+    <div class="flex justify-between items-center">
+        <x-button wire:navigate href="{{ route('talents.index') }}" :icon="config('icons.arrow-left-circle')"
+            iconPosition="left">Kembali</x-button>
+        <x-breadcrumb :links="[
+            ['label' => 'Home', 'url' => route('user.home')],
+            ['label' => 'Talents', 'url' => route('talents.index')],
+            ['label' => 'Detail'],
+        ]" />
+    </div>
+    <div class="bg-white mt-6 rounded-2xl p-6 border border-gray-200">
         {{-- Header & Meta --}}
         <div class="flex items-center gap-4">
             @if ($talent->avatar)
