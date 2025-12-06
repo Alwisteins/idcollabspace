@@ -15,22 +15,26 @@
                         <div>
                             <p class="text-sm">{{ $task->title }}</p>
                         </div>
-                        @if ($task->user_id)
-                            <div class="flex items-center gap-1 my-1">
-                                @if ($task->assignees->first()->avatar)
-                                    <img class="w-4 h-4 rounded-full" src="{{ $task->assignees->first()->avatar }}"
-                                        alt="">
-                                @else
-                                    <div
-                                        class="w-4 h-4 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
-                                        <h3 class="text-xs font-bold text-white">
-                                            {{ strtoupper(substr($task->assignees->first()->name, 0, 1)) }}
-                                        </h3>
+                        @if ($task->assignees->first())
+                            <div class="flex items-center gap-2 my-1">
+                                @foreach ($task->assignees as $assignee)
+                                    <div class="flex items-end gap-1">
+                                        @if ($assignee->avatar)
+                                            <img class="w-4 h-4 rounded-full" src="{{ $assignee->avatar }}"
+                                                alt="">
+                                        @else
+                                            <div
+                                                class="w-4 h-4 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
+                                                <h3 class="text-xs font-bold text-white">
+                                                    {{ strtoupper(substr($assignee->name, 0, 1)) }}
+                                                </h3>
+                                            </div>
+                                        @endif
+                                        <p class="text-xs text-gray-600 mt-1">
+                                            {{ $assignee->name }}
+                                        </p>
                                     </div>
-                                @endif
-                                <p class="text-xs text-gray-600 mt-1">
-                                    {{ $task->assignees->first()->name }}
-                                </p>
+                                @endforeach
                             </div>
                         @endif
                         @if ($task->description)

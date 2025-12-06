@@ -85,21 +85,66 @@
                             </div>
                         </div>
                         {{-- Assign To --}}
-                        <div>
+                        <div x-data="{
+                            open: false,
+                            search: '',
+                            selected: @entangle('taskAssignee'),
+                            toggleSelect(id) {
+                                if (this.selected.includes(id)) {
+                                    this.selected = this.selected.filter(x => x !== id);
+                                } else {
+                                    this.selected.push(id);
+                                }
+                            }
+                        }" class="relative">
                             <label class="block mb-1 text-sm font-semibold text-gray-900">Assign To</label>
-                            <select wire:model="taskAssignee"
-                                class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-                                <option value="0">-- Pilih Member --</option>
-                                @foreach ($members as $member)
-                                    <option value="{{ $member->user_id }}">
-                                        {{ $member->user->name }}
-                                    </option>
-                                @endforeach
-                            </select>
+
+                            <!-- Input Combobox -->
+                            <div @click="open = !open" class="relative">
+                                <div
+                                    class="w-full min-h-[48px] p-2 bg-gray-50 border border-gray-300 rounded-lg cursor-pointer flex flex-wrap gap-1 items-center">
+                                    <!-- Badge Selected Users -->
+                                    <template x-if="selected.length > 0">
+                                        <template x-for="id in selected" :key="id">
+                                            <span class="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs">
+                                                <span
+                                                    x-text="$refs.options.querySelector(`[data-id='${id}']`).dataset.name"></span>
+                                            </span>
+                                        </template>
+                                    </template>
+
+                                    <input type="text" x-model="search" placeholder="Pilih Member..."
+                                        class="flex-1 bg-transparent p-1 outline-none text-sm" @input="open = true">
+                                </div>
+                            </div>
+
+                            <!-- Dropdown List -->
+                            <div x-show="open" @click.outside="open = false"
+                                class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                                <ul x-ref="options">
+                                    @foreach ($members as $member)
+                                        <li class="flex items-center justify-between p-2 cursor-pointer hover:bg-gray-100"
+                                            data-id="{{ $member->user_id }}" data-name="{{ $member->user->name }}"
+                                            @click="toggleSelect({{ $member->user_id }})">
+                                            <span>{{ $member->user->name }}</span>
+
+                                            <template x-if="selected.includes({{ $member->user_id }})">
+                                                <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor"
+                                                    stroke-width="3" viewBox="0 0 24 24">
+                                                    <path d="M5 13l4 4L19 7" />
+                                                </svg>
+                                            </template>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+
                             @error('taskAssignee')
                                 <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
                             @enderror
                         </div>
+
+
                     </div>
                 </div>
 

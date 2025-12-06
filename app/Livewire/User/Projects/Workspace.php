@@ -14,7 +14,7 @@ class Workspace extends Component
     public Project $project;
 
     public $newComment = '';
-    public $taskId, $taskTitle, $taskDescription, $taskStatus = 'todo', $taskDeadline, $taskAssignee;
+    public $taskId, $taskTitle, $taskDescription, $taskStatus = 'todo', $taskDeadline, $taskAssignee = [];
     public $showModal = false;
 
     public function openModal($status = null)
@@ -55,6 +55,7 @@ class Workspace extends Component
     {
         $this->validate([
             'taskTitle' => 'required|min:3',
+            'taskAssignee' => 'array',
         ]);
 
         if ($this->taskId) {
@@ -65,10 +66,9 @@ class Workspace extends Component
                 'description' => $this->taskDescription,
                 'status' => $this->taskStatus,
                 'deadline' => $this->taskDeadline,
-                'user_id' => $this->taskAssignee ?? null,
             ]);
 
-            $task->assignees()->sync([$this->taskAssignee]);
+            $task->assignees()->sync($this->taskAssignee);
 
             session()->flash('message', 'Task berhasil diupdate!');
         } else {
@@ -78,11 +78,10 @@ class Workspace extends Component
                 'description' => $this->taskDescription,
                 'status' => $this->taskStatus,
                 'deadline' => $this->taskDeadline,
-                'user_id' => $this->taskAssignee ?? null,
                 'project_id' => $this->project->id,
             ]);
 
-            $task->assignees()->sync([$this->taskAssignee]);
+            $task->assignees()->sync($this->taskAssignee);
 
             session()->flash('message', 'Task berhasil ditambahkan!');
         }
@@ -99,7 +98,7 @@ class Workspace extends Component
         $this->taskDescription = $task->description;
         $this->taskStatus = $task->status;
         $this->taskDeadline = $task->deadline ? $task->deadline->format('Y-m-d') : null;
-        $this->taskAssignee = $task->user_id;
+        $this->taskAssignee = $task->assignees()->pluck('users.id')->toArray();
         $this->showModal = true;
     }
 
