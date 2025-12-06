@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description')->nullable();
             $table->enum('status', ['todo', 'in progress', 'done']);
+            $table->enum('load', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
             $table->date('deadline')->nullable();;
             $table->timestamps();
         });

@@ -14,7 +14,7 @@ class Workspace extends Component
     public Project $project;
 
     public $newComment = '';
-    public $taskId, $taskTitle, $taskDescription, $taskStatus = 'todo', $taskDeadline, $taskAssignee = [];
+    public $taskId, $taskTitle, $taskDescription, $taskStatus = 'todo', $taskLoad = 1, $taskDeadline, $taskAssignee = [];
     public $showModal = false;
 
     public function openModal($status = null)
@@ -35,6 +35,17 @@ class Workspace extends Component
         $this->taskId = null;
         $this->taskTitle = '';
         $this->resetValidation();
+    }
+
+    public function loadStyle($load)
+    {
+        if ($load > 6) {
+            return 'text-red-600';
+        } else if ($load > 3) {
+            return 'text-yellow-600';
+        } else {
+            return 'text-green-600';
+        }
     }
 
     public function mount(Project $project)
@@ -65,6 +76,7 @@ class Workspace extends Component
                 'title' => $this->taskTitle,
                 'description' => $this->taskDescription,
                 'status' => $this->taskStatus,
+                'load' => $this->taskLoad,
                 'deadline' => $this->taskDeadline,
             ]);
 
@@ -78,6 +90,7 @@ class Workspace extends Component
                 'description' => $this->taskDescription,
                 'status' => $this->taskStatus,
                 'deadline' => $this->taskDeadline,
+                'load' => $this->taskLoad,
                 'project_id' => $this->project->id,
             ]);
 
@@ -89,6 +102,7 @@ class Workspace extends Component
         $this->closeModal();
     }
 
+    public $hasTaskAccess = false;
     public function edit($id)
     {
         $task = Task::findOrFail($id);
@@ -97,9 +111,11 @@ class Workspace extends Component
         $this->taskTitle = $task->title;
         $this->taskDescription = $task->description;
         $this->taskStatus = $task->status;
+        $this->taskLoad = $task->load;
         $this->taskDeadline = $task->deadline ? $task->deadline->format('Y-m-d') : null;
         $this->taskAssignee = $task->assignees()->pluck('users.id')->toArray();
         $this->showModal = true;
+        $this->hasTaskAccess = Auth::id() === $task->project->owner_id || $task->assignees->contains(Auth::id());
     }
 
     public function updateTaskStatus($taskId, $direction)

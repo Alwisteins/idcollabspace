@@ -15,11 +15,17 @@ class Task extends Model
         'description',
         'status',
         'deadline',
+        'load',
         'project_id',
     ];
 
     public function assignees()
     {
         return $this->belongsToMany(User::class, 'task_user')->withTimestamps();;
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
     }
 }

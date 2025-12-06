@@ -1,6 +1,13 @@
+<?php
+$statusStyle = [
+    'todo' => 'bg-red-50 text-red-800',
+    'in progress' => 'bg-yellow-50 text-yellow-800',
+    'done' => 'bg-green-50 text-green-800',
+]; ?>
+
 <div class="grid grid-cols-3 gap-4">
     @foreach (['todo', 'in progress', 'done'] as $status)
-        <div class="bg-gray-50 p-3 rounded-lg min-h-[300px]">
+        <div class="{{ $statusStyle[$status] }} p-3 rounded-lg min-h-[300px] border">
             <h3 class="font-semibold mb-2 capitalize">
                 {{ $status }}
             </h3>
@@ -8,10 +15,17 @@
             @foreach ($tasks->where('status', $status) as $task)
                 <div wire:click="edit('{{ $task->id }}')" class="cursor-pointer p-2 mb-2 bg-white rounded shadow">
                     <div>
-                        @if ($task->deadline)
-                            <p class="text-xs text-gray-600 mb-1">Deadline:
-                                {{ $task->deadline->translatedFormat('d F Y') }}</p>
-                        @endif
+                        <div class="flex {{ $task->deadline ? 'justify-between' : 'justify-end' }}">
+                            @if ($task->deadline)
+                                <p class="text-xs text-gray-600 mb-1">Deadline:
+                                    {{ $task->deadline->translatedFormat('d F Y') }}</p>
+                            @endif
+                            <span
+                                class="flex items-center gap-1 text-xs font-medium {{ $this->loadStyle($task->load) }}">
+                                <x-icon name="ticket" class="w-4" />
+                                {{ $task->load }}
+                            </span>
+                        </div>
                         <div>
                             <p class="text-sm">{{ $task->title }}</p>
                         </div>
@@ -42,13 +56,13 @@
                         @endif
                     </div>
                     <div class="mt-2 flex {{ $task->status === 'in progress' ? 'justify-between' : 'justify-end' }}">
-                        @if ($task->status !== 'todo')
+                        @if ($task->status !== 'todo' && (Auth::id() === $task->project->owner_id || $task->assignees->contains(Auth::id())))
                             <x-button size="xs" variant="text" :icon="config('icons.chevron-left')" iconPosition="left"
                                 wire:click.stop="updateTaskStatus({{ $task->id }}, 'previous')">
                                 prev
                             </x-button>
                         @endif
-                        @if ($task->status !== 'done')
+                        @if ($task->status !== 'done' && (Auth::id() === $task->project->owner_id || $task->assignees->contains(Auth::id())))
                             <x-button size="xs" variant="text" :icon="config('icons.chevron-right')" iconPosition="right"
                                 wire:click.stop="updateTaskStatus({{ $task->id }}, 'next')">
                                 next
@@ -63,7 +77,7 @@
         </div>
     @endforeach
     @if ($showModal)
-        <x-task-modal :members="$members" :taskId="$taskId" />
+        <x-task-modal :members="$members" :taskId="$taskId" :hasTaskAccess="$hasTaskAccess" />
     @endif
     <script>
         document.addEventListener('livewire:init', () => {

@@ -1,4 +1,4 @@
-@props(['taskId', 'members'])
+@props(['taskId', 'members', 'hasTaskAccess'])
 
 <div class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true"
     x-data="{ show: @entangle('showModal') }" x-show="show" x-cloak>
@@ -21,7 +21,7 @@
             <!-- Header -->
             <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4 flex items-center justify-between">
                 <h3 class="text-xl font-bold text-white">
-                    {{ $taskId ? 'Edit Task' : 'Tambah Task Baru' }}
+                    {{ !$taskId ? 'Tambah Task Baru' : ($hasTaskAccess ? 'Edit Task' : 'Lihat Task') }}
                 </h3>
                 <button type="button" wire:click="closeModal"
                     class="text-white hover:text-gray-200 rounded-lg w-8 h-8 flex justify-center items-center transition">
@@ -73,16 +73,31 @@
                                     <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
-
-                            {{-- Deadline --}}
+                            {{-- Load --}}
                             <div class="w-full">
-                                <label class="block mb-1 text-sm font-semibold text-gray-900">Deadline</label>
-                                <input type="date" wire:model="taskDeadline"
+                                <label class="block mb-1 text-sm font-semibold text-gray-900">
+                                    Load <span class="text-red-500">*</span>
+                                </label>
+                                <select wire:model="taskLoad"
                                     class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-                                @error('taskDeadline')
+                                    @for ($i = 1; $i <= 10; $i++)
+                                        <option value="{{ $i }}">{{ $i }}</option>
+                                    @endfor
+                                </select>
+
+                                @error('taskLoad')
                                     <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
+                        </div>
+                        {{-- Deadline --}}
+                        <div class="w-full">
+                            <label class="block mb-1 text-sm font-semibold text-gray-900">Deadline</label>
+                            <input type="date" wire:model="taskDeadline"
+                                class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            @error('taskDeadline')
+                                <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                         {{-- Assign To --}}
                         <div x-data="{
@@ -151,7 +166,7 @@
                 <!-- Footer -->
 
                 <div class="bg-gray-50 px-6 py-4 flex {{ $taskId ? 'justify-between' : 'justify-end' }} gap-3">
-                    @if ($taskId)
+                    @if ($taskId && $hasTaskAccess)
                         <x-button variant="danger" type="button" wire:click="confirmDelete">
                             Hapus Task
                         </x-button>
@@ -162,10 +177,17 @@
                             Batal
                         </button>
 
-                        <button type="submit"
-                            class="px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700">
-                            {{ $taskId ? 'Update Task' : 'Simpan Task' }}
-                        </button>
+                        @if ($taskId && $hasTaskAccess)
+                            <button type="submit"
+                                class="px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700">
+                                Update Task
+                            </button>
+                        @else
+                            <button type="submit"
+                                class="px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700">
+                                Simpan Task
+                            </button>
+                        @endif
                     </div>
                 </div>
             </form>
