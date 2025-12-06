@@ -67,7 +67,7 @@
                                 Tolak
                             </button>
                             <button wire:click.prevent="acceptApplication({{ $application->id }})"
-                                class="text-xs px-4 py-2 rounded-mdbg-blue-600 text-white hover:bg-blue-700 transition">
+                                class="text-xs px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition">
                                 Terima
                             </button>
                         @else
