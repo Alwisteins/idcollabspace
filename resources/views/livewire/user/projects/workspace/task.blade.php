@@ -13,14 +13,16 @@
     </div>
 
     <ul
-        class="bg-white flex flex-wrap w-fit relative top-1 rounded-t-lg border-t border-x text-sm font-medium text-center text-gray-500 dark:text-gray-400">
+        class="bg-white p-2 flex flex-wrap w-fit relative top-1 rounded-t-lg border-t border-x text-sm font-medium text-center text-gray-500 dark:text-gray-400">
         <li class="me-2">
-            <button wire:click="$set('type', 'taskboard')" class="inline-block px-4 py-3 rounded-lg ">
+            <button wire:click="$set('type', 'taskboard')"
+                class="inline-block px-4 py-3 rounded-lg {{ url()->current() == route('projects.workspace.task', $project) ? 'text-white bg-blue-600 active' : 'hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white' }}">
                 Tasks
             </button>
         </li>
-        <li class="me-2">
-            <button wire:click="$set('type', 'discussions')" class="inline-block px-4 py-3 rounded-lg">
+        <li class="me-2 w-fit">
+            <button onclick="window.location.href = '{{ route('projects.workspace.discussion', $project) }}';"
+                class="inline-block px-4 py-3 rounded-lg">
                 Discussions
             </button>
         </li>

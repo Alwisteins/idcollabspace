@@ -95,7 +95,7 @@
                         @endphp
                         {{-- Workspace Button --}}
                         @if ($userIsOwner || $userIsMember)
-                            <x-button wire:navigate href="{{ route('projects.workspace', $project) }}"
+                            <x-button wire:navigate href="{{ route('projects.workspace.task', $project) }}"
                                 class="!bg-indigo-600 hover:!bg-indigo-700 !text-white shadow-sm w-full sm:w-auto">
                                 Masuk Workspace
                             </x-button>

@@ -17,6 +17,8 @@ use App\Livewire\Profile\Profile;
 use App\Livewire\User\Projects\Project;
 use App\Livewire\User\Projects\ProjectDetail;
 use App\Livewire\User\Projects\Workspace;
+use App\Livewire\User\Projects\Workspace\Discussion;
+use App\Livewire\User\Projects\Workspace\Task;
 use App\Livewire\User\Talents\Talent;
 use App\Livewire\User\Talents\TalentDetail;
 use Illuminate\Support\Facades\Route;
@@ -44,7 +46,8 @@ Route::prefix('user')->middleware(['auth', 'user'])->group(function () {
         Route::get('/create', ProjectForm::class)->name('projects.create');
         Route::get('/{project}', ProjectDetail::class)->name('projects.show');
         Route::get('/{project}/edit', ProjectForm::class)->name('projects.edit');
-        Route::get('/{project}/workspace', Workspace::class)->name('projects.workspace');
+        Route::get('/{project}/workspace/task', Task::class)->name('projects.workspace.task');
+        Route::get('/{project}/workspace/discussion', Discussion::class)->name('projects.workspace.discussion');
     });
 
     Route::prefix('talents')->group(function () {
