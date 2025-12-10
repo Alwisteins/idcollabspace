@@ -39,31 +39,10 @@
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4 mt-6">
                         <x-button wire:navigate href="{{ route('login') }}">Mulai Sekarang</x-button>
-                        <button
-                            class="px-8 py-4 bg-white text-gray-700 rounded-xl hover:bg-gray-50 transition border-2 border-gray-200 font-semibold">
+                        <x-button variant="secondary" href="#projects">
                             Lihat Project
-                        </button>
+                        </x-button>
                     </div>
-                    {{-- <div class="flex items-center space-x-8 pt-4">
-                        <div class="flex -space-x-2">
-                            <div
-                                class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 border-2 border-white">
-                            </div>
-                            <div
-                                class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 border-2 border-white">
-                            </div>
-                            <div
-                                class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-green-600 border-2 border-white">
-                            </div>
-                            <div
-                                class="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 border-2 border-white">
-                            </div>
-                        </div>
-                        <div class="text-sm">
-                            <div class="font-semibold text-gray-900">10,000+ kontributor</div>
-                            <div class="text-gray-600">Bergabung ke proyek baru</div>
-                        </div>
-                    </div> --}}
                 </div>
                 <div class="relative">
                     <!-- Project Cards Mockup -->
@@ -283,10 +262,9 @@
                 <x-button wire:navigate href="{{ route('login') }}">
                     Mulai Sekarang
                 </x-button>
-                <button
-                    class="px-8 py-4 bg-white text-gray-700 rounded-xl hover:bg-gray-50 transition border-2 border-gray-200 font-semibold">
+                <x-button variant="secondary" href="#projects">
                     Lihat Project
-                </button>
+                </x-button>
             </div>
 
             <!-- Features List -->
