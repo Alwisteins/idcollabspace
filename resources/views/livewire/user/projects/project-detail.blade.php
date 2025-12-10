@@ -9,13 +9,10 @@
         ]" />
     </div>
     <div class="max-w-6xl mt-6 mx-auto bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-        {{-- Header & Meta --}}
         <div class="rounded-xl border">
             @if (auth()->id() === $project->owner_id)
                 <div
                     class="p-4 border rounded-t-lg bg-gray-50 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-
-                    {{-- Dropdown Status --}}
                     <div class="flex items-center gap-3">
                         <label class="text-sm font-semibold text-gray-700">Status Proyek:</label>
                         <select wire:change="updateStatus($event.target.value)"
@@ -31,8 +28,6 @@
                             </option>
                         </select>
                     </div>
-
-                    {{-- Tutup Recruitment --}}
                     @if ($project->status === 'open')
                         <button wire:click="closeRecruitment"
                             class="px-4 py-2 text-sm rounded-lg bg-yellow-100 text-yellow-800 font-medium hover:bg-yellow-200 
@@ -45,7 +40,6 @@
                 </div>
             @endif
             <div class="p-4 flex justify-between items-start gap-4">
-                {{-- Project Header --}}
                 <div>
                     <div class="flex items-center gap-4">
                         <div
@@ -67,8 +61,6 @@
                     </div>
 
                     <p class="mt-4 text-gray-700 text-sm">{{ $project->description }}</p>
-
-                    {{-- Project Info: Payment & Timeline --}}
                     <div class="mt-5 flex flex-wrap gap-4 text-sm text-gray-700">
                         <div class="flex items-center gap-2">
                             <span class="font-semibold">💰 Tipe Proyek:</span>
@@ -87,13 +79,11 @@
                         </div>
                     </div>
 
-                    {{-- PRIMARY ACTION BUTTONS --}}
                     <div class="mt-6 flex flex-col sm:flex-row gap-3">
                         @php
                             $userIsMember = $project->members->contains('user_id', auth()->id());
                             $userIsOwner = auth()->id() === $project->owner_id;
                         @endphp
-                        {{-- Workspace Button --}}
                         @if ($userIsOwner || $userIsMember)
                             <x-button wire:navigate href="{{ route('projects.workspace.task', $project) }}"
                                 class="!bg-indigo-600 hover:!bg-indigo-700 !text-white shadow-sm w-full sm:w-auto">
@@ -101,7 +91,6 @@
                             </x-button>
                         @endif
 
-                        {{-- Edit & Delete --}}
                         @if (auth()->id() === $project->owner_id)
                             <x-button variant="success" wire:navigate href="{{ route('projects.edit', $project) }}"
                                 class="w-full sm:w-auto">
@@ -114,7 +103,6 @@
                             </x-button>
                         @endif
                         @php $userApplied = $project->applications->where('user_id', auth()->id())->count() > 0; @endphp
-                        {{-- Already Applied Badge --}}
                         @if ($userApplied)
                             <span
                                 class="px-4 py-2 bg-yellow-50 text-yellow-700 rounded-lg border border-yellow-200 text-center w-full sm:w-fit">
@@ -123,8 +111,6 @@
                         @endif
                     </div>
                 </div>
-
-                {{-- Owner Card --}}
                 <div>
                     <h4 class="text-md font-semibold text-gray-800">Dibuat Oleh</h4>
                     <div class="w-64 mt-3">
@@ -149,8 +135,6 @@
             </div>
         </div>
 
-
-        {{-- Roles Section --}}
         <div id="roles" class="mt-6 pt-4 border-t border-gray-200">
             <div class="flex justify-between items-center">
                 <h3 class="text-lg font-semibold text-gray-800">Roles Dibutuhkan</h3>
@@ -193,8 +177,6 @@
                                         class="text-xs px-3 py-1 rounded-md bg-blue-600 text-white">Lamar</button>
                                 @endif
                             @endif
-
-                            {{-- small progress bar --}}
                             <div class="w-28 h-2 bg-gray-100 rounded-full overflow-hidden">
                                 @php
                                     $percent = $pr->quantity
@@ -213,10 +195,8 @@
             </div>
         </div>
 
-        {{-- Tabs: Applicants & Members --}}
         <div class="mt-6 pt-6 border-t border-gray-200">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {{-- Applicants --}}
                 <div>
                     <h4 class="text-md font-semibold text-gray-800">Lamaran Masuk</h4>
                     <div class="mt-3 space-y-3">
@@ -264,7 +244,6 @@
                     </div>
                 </div>
 
-                {{-- Members --}}
                 <div>
                     <h4 class="text-md font-semibold text-gray-800">Anggota Project</h4>
                     <div class="mt-3 grid grid-cols-1 gap-3">
@@ -298,7 +277,6 @@
         </div>
     </div>
 
-    {{-- Apply Modal --}}
     @if ($showApplyModal)
         <div class="fixed inset-0 z-50 flex items-center justify-center">
             <div class="absolute inset-0 bg-black opacity-30" wire:click="closeApplModal"></div>
@@ -320,15 +298,11 @@
         </div>
     @endif
 
-    {{-- Applicant Modal --}}
     @if ($showApplicantModal)
         <div class="fixed inset-0 z-50 flex items-center justify-center">
-            <!-- Overlay -->
             <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" wire:click="closeApplicantModal"></div>
 
-            <!-- Modal Card -->
             <div class="relative bg-white w-full max-w-md rounded-2xl shadow-2xl p-6 z-10 border border-gray-100">
-                <!-- Header -->
                 <div class="flex justify-between items-start mb-4">
                     <div class="flex items-center gap-3">
                         @if ($openedApplicant->user->avatar)
@@ -358,7 +332,6 @@
                     </button>
                 </div>
 
-                <!-- Metadata -->
                 <div class="flex justify-between items-center text-xs text-gray-500 mb-4">
                     <span class="inline-flex items-center gap-1">
                         🧩 <strong>{{ $openedApplicant->projectRole->role->name ?? 'Role' }}</strong>
@@ -366,7 +339,6 @@
                     <span>{{ $openedApplicant->created_at->diffForHumans() }}</span>
                 </div>
 
-                <!-- Message -->
                 <div class="mb-5">
                     <h4 class="text-sm font-semibold text-gray-700 mb-1">Pesan Pelamar</h4>
                     <p class="text-gray-700 bg-gray-50 border border-gray-100 rounded-lg p-3 leading-relaxed text-sm">
@@ -374,7 +346,6 @@
                     </p>
                 </div>
 
-                <!-- Actions -->
                 <div class="flex justify-end gap-3">
                     <button wire:click="rejectApplication({{ $openedApplicant->id }})"
                         wire:target="rejectApplication({{ $openedApplicant->id }})"
@@ -393,7 +364,6 @@
 
     @endif
 
-    {{-- Flash messages --}}
     <div class="fixed bottom-6 right-6 z-50">
         @if (session()->has('success'))
             <div class="px-4 py-2 bg-green-600 text-white rounded-lg shadow">{{ session('success') }}</div>

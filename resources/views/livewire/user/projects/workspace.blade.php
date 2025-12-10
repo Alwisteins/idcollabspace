@@ -26,10 +26,8 @@
         </li>
     </ul>
     <div class="bg-white rounded-tl-none rounded-2xl border p-6">
-        <!-- PROJECT HEADER CARD -->
         <div class="flex justify-between mb-6">
             <div class="flex items-center gap-5">
-                <!-- Avatar -->
                 <div
                     class="w-16 h-16 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600
             flex items-center justify-center text-white font-bold text-xl shadow-sm">
@@ -38,7 +36,6 @@
                     @endif
                 </div>
 
-                <!-- Title & Meta -->
                 <div class="flex flex-col">
                     <h2 class="text-xl font-semibold text-gray-900 leading-tight">
                         {{ $project->title }}
@@ -60,7 +57,6 @@
                 </div>
             </div>
 
-            {{-- Progress Percentage --}}
             @php
                 $totalLoad = $tasks->sum('load');
                 $doneLoad = $tasks->where('status', 'done')->sum('load');
@@ -75,15 +71,12 @@
                     </span>
                 </div>
                 <div class="relative w-16 h-16">
-                    <!-- Background Circle -->
                     <svg class="w-16 h-16 transform -rotate-90">
                         <circle cx="30" cy="30" r="24" stroke="#e5e7eb" stroke-width="5" fill="none" />
-                        <!-- Progress Circle -->
                         <circle cx="30" cy="30" r="24" stroke="url(#gradient)" stroke-width="5"
                             fill="none" stroke-linecap="round" stroke-dasharray="{{ 2 * 3.14159 * 24 }}"
                             stroke-dashoffset="{{ 2 * 3.14159 * 24 * (1 - $progressPercentage / 100) }}"
                             class="transition-all duration-1000 ease-out" />
-                        <!-- Gradient Definition -->
                         <defs>
                             <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
                                 <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
@@ -92,7 +85,6 @@
                         </defs>
                     </svg>
 
-                    <!-- Percentage Text -->
                     <div class="absolute inset-0 top-1 flex items-center justify-center">
                         <span class="text-md font-bold text-gray-900">
                             {{ number_format($progressPercentage, 0) }}%
@@ -102,7 +94,6 @@
             </div>
         </div>
 
-        <!-- TASKBOARD SECTION -->
         <div class="mt-6">
             @include('livewire.user.projects.partials.taskboard')
         </div>

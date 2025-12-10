@@ -1,15 +1,10 @@
 <div class="space-y-4 mb-8">
-
-    <!-- Button buka modal -->
     <div class="flex justify-end">
         <x-button :icon="config('icons.plus')" wireTarget="openModal" wire:click="openModal">Pilih Team Role</x-button>
     </div>
-
-    <!-- ============ MODAL ============ -->
     @if ($showModal)
         <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
             <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg w-full max-w-2xl p-6 mx-4">
-                <!-- Header -->
                 <div class="flex items-center justify-between border-b pb-3">
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
                         Pilih Role yang Dibutuhkan
@@ -21,8 +16,6 @@
                         </svg>
                     </button>
                 </div>
-
-                <!-- Body -->
                 <div class="mt-4 grid grid-cols-2 gap-3">
                     @foreach ($roles as $role)
                         @php
@@ -36,8 +29,6 @@
                         </button>
                     @endforeach
                 </div>
-
-                <!-- Footer -->
                 <div class="mt-6 flex justify-end border-t pt-3">
                     <x-button type="button" wireTarget="closeModal" wire:click="closeModal">Selesai</x-button>
                 </div>
@@ -45,7 +36,6 @@
         </div>
     @endif
 
-    <!-- ============ SELECTED ROLE LIST ============ -->
     @if (count($selectedRoles) > 0)
         <div class="space-y-3">
             @foreach ($selectedRoles as $index => $role)

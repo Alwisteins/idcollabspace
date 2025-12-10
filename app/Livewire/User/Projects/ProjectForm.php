@@ -52,7 +52,6 @@ class ProjectForm extends Component
         }
     }
 
-    /** ============ Modal Control ============ */
     public function openModal()
     {
         $this->showModal = true;
@@ -62,19 +61,13 @@ class ProjectForm extends Component
         $this->showModal = false;
     }
 
-    /** ============ Role Selection Logic ============ */
     public function toggleRole($roleId)
     {
-        // ubah role jadi collection & cari role berdasrkan id dari list roles
         $role = collect($this->roles)->firstWhere('id', $roleId);
         if (!$role) return;
 
-        // ubah role jadi collection & cari role berdasrkan id dari selectedRoles
         $exists = collect($this->selectedRoles)->firstWhere('id', $roleId);
         if ($exists) {
-            // hapus role yang dipilih dari selectedRoles. cara kerja:
-            // 1) array_filter untuk filter selectedRoles by id
-            // 2) array_values urutin index hasil filter
             $this->selectedRoles = array_values(array_filter($this->selectedRoles, fn($r) => $r['id'] !== $roleId));
         } else {
             $this->selectedRoles[] = [
@@ -105,7 +98,6 @@ class ProjectForm extends Component
         $this->selectedRoles = array_values($this->selectedRoles);
     }
 
-    /** ============ Step Controls ============ */
     public function nextStep()
     {
         if ($this->currentStep === 1) {
@@ -141,7 +133,6 @@ class ProjectForm extends Component
         };
     }
 
-    /** ============ Create / Update ============ */
     public function submit()
     {
         $validated = $this->validate([

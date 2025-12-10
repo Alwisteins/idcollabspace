@@ -29,10 +29,8 @@
         </li>
     </ul>
     <div class="bg-white rounded-tl-none rounded-2xl border p-6">
-        <!-- PROJECT HEADER CARD -->
         <div class="flex justify-between mb-6">
             <div class="flex items-center gap-5">
-                <!-- Avatar -->
                 <div
                     class="w-16 h-16 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600
             flex items-center justify-center text-white font-bold text-xl shadow-sm">
@@ -41,7 +39,6 @@
                     @endif
                 </div>
 
-                <!-- Title & Meta -->
                 <div class="flex flex-col">
                     <h2 class="text-xl font-semibold text-gray-900 leading-tight">
                         {{ $project->title }}
@@ -64,7 +61,6 @@
             </div>
         </div>
 
-        <!-- DISCCUSSION SECTION -->
         <div class="mt-6">
             @include('livewire.user.projects.partials.discussion')
         </div>

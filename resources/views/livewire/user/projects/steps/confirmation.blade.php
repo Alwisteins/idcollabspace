@@ -1,20 +1,6 @@
 <div>
     <h2 class="text-2xl font-semibold mb-4 text-gray-800">Konfirmasi Detail Proyek</h2>
-
     {{-- Bagian 1: Informasi Proyek --}}
-    {{-- <div class="mb-6">
-        <h3 class="text-lg font-medium text-gray-700 mb-2">📋 Detail Proyek</h3>
-        <div class="space-y-1 text-gray-600">
-            <p><strong>Nama:</strong> {{ $title ?? '-' }}</p>
-            <p><strong>Deskripsi:</strong> {{ $description ?? '-' }}</p>
-            <p><strong>Status:</strong> {{ $status ?? '-' }}</p>
-            <p><strong>Kategori:</strong> {{ $categories->find($category_id)->name ?? '-' }}</p>
-            <p><strong>Tipe:</strong> {{ $is_paid ? 'Berbayar' : 'Non-bayar / Volunteer' }}</p>
-            <p><strong>Timeline:</strong> {{ \Carbon\Carbon::parse($start_date)->format('d M Y') }}
-                - {{ \Carbon\Carbon::parse($end_date)->format('d M Y') }}</p>
-        </div>
-    </div> --}}
-    {{-- End Bagian 1 --}}
     <div class="flex justify-between items-start gap-4 p-4 rounded-xl bg-black border">
         <div>
             <div class="flex items-center gap-4">
@@ -50,6 +36,7 @@
             </div>
         </div>
     </div>
+    {{-- End Bagian 1 --}}
 
     {{-- Bagian 2: Role Tim --}}
     <div class="my-6">
@@ -72,4 +59,5 @@
             <p class="text-gray-500">Belum ada role yang dipilih.</p>
         @endif
     </div>
+    {{-- End Bagian 2 --}}
 </div>

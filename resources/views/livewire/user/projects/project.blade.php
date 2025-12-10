@@ -1,5 +1,4 @@
 <div class="p-6">
-    {{-- === FILTER STATUS === --}}
     <div>
         <ul class="flex flex-wrap text-sm font-medium text-center text-gray-500 dark:text-gray-400">
             <li class="me-2">
@@ -26,7 +25,6 @@
         </ul>
     </div>
 
-    {{-- === SEARCH BAR + CREATE BUTTON === --}}
     <div class="flex justify-between items-center mt-6">
         <div class="relative">
             <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -44,7 +42,6 @@
             Project</x-button>
     </div>
 
-    {{-- === PROJECT LIST === --}}
     <div class="grid md:grid-cols-2 gap-8 mt-8">
         @if ($projects->isEmpty())
             <p class="text-center text-gray-600 col-span-2">Tidak ada proyek untuk saat ini.</p>
@@ -66,7 +63,6 @@
                     </div>
                     <p class="text-xs text-gray-600">{{ $project->description }}</p>
 
-                    {{-- Roles Dibutuhkan --}}
                     <div class="mt-3 pt-3 border-t border-gray-300">
                         <div class="text-xs font-semibold text-gray-500 mb-2">Roles Dibutuhkan:</div>
                         <div class="flex flex-wrap gap-2">
@@ -82,12 +78,10 @@
         @endif
     </div>
 
-    {{-- === PAGINATION === --}}
     <div class="mt-4">
         {{ $projects->links() }}
     </div>
 
-    {{-- === SUCCESS TOAST === --}}
     @if (session('success'))
         <script>
             Swal.fire({
