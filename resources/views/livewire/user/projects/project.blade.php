@@ -3,21 +3,21 @@
         <ul class="flex flex-wrap text-sm font-medium text-center text-gray-500 dark:text-gray-400">
             <li class="me-2">
                 <button wire:click="$set('status', '')"
-                    class="inline-block px-4 py-3 rounded-lg 
+                    class="inline-block px-4 py-3 rounded-lg
                         {{ $status == null ? 'text-white bg-blue-600 active' : 'hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white' }}">
                     Semua
                 </button>
             </li>
             <li class="me-2">
                 <button wire:click="$set('status', 'owner')"
-                    class="inline-block px-4 py-3 rounded-lg 
+                    class="inline-block px-4 py-3 rounded-lg
                         {{ $status == 'owner' ? 'text-white bg-blue-600 active' : 'hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white' }}">
                     Dibuat
                 </button>
             </li>
             <li class="me-2">
                 <button wire:click="$set('status', 'collabolator')"
-                    class="inline-block px-4 py-3 rounded-lg 
+                    class="inline-block px-4 py-3 rounded-lg
                         {{ $status == 'collabolator' ? 'text-white bg-blue-600 active' : 'hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white' }}">
                     Diikuti
                 </button>
@@ -47,7 +47,7 @@
             <p class="text-center text-gray-600 col-span-2">Tidak ada proyek untuk saat ini.</p>
         @else
             @foreach ($projects as $project)
-                <div wire:navigate href="{{ route('projects.show', $project) }}"
+                <a wire:navigate href="{{ route('projects.show', $project) }}"
                     class="bg-white rounded-2xl p-6 hover:cursor-pointer hover:shadow-xl transition-all border border-gray-200 group hover:-translate-y-1">
                     <div class="flex justify-end">
                         <span
@@ -73,7 +73,7 @@
                             @endforeach
                         </div>
                     </div>
-                </div>
+                </a>
             @endforeach
         @endif
     </div>
@@ -83,14 +83,16 @@
     </div>
 
     @if (session('success'))
-        <script>
-            Swal.fire({
-                icon: 'success',
-                title: 'Berhasil!',
-                text: '{{ session('success') }}',
-                timer: 3000,
-                showConfirmButton: false
-            });
-        </script>
+        @script
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: '{{ session('success') }}',
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+            </script>
+        @endscript
     @endif
 </div>

@@ -1,7 +1,6 @@
 <div class="p-6">
     <div class="flex justify-between items-center">
-        <x-button wire:navigate href="{{ route('projects.index') }}" :icon="config('icons.arrow-left-circle')"
-            iconPosition="left">Kembali</x-button>
+        <x-button wire:navigate @click="history.back()" :icon="config('icons.arrow-left-circle')" iconPosition="left">Kembali</x-button>
         <x-breadcrumb :links="[
             ['label' => 'Home', 'url' => route('user.home')],
             ['label' => 'Projects', 'url' => route('projects.index')],
@@ -16,7 +15,7 @@
                     <div class="flex items-center gap-3">
                         <label class="text-sm font-semibold text-gray-700">Status Proyek:</label>
                         <select wire:change="updateStatus($event.target.value)"
-                            class="w-40 px-3 py-2 text-sm rounded-lg border border-gray-300 bg-white text-gray-700 
+                            class="w-40 px-3 py-2 text-sm rounded-lg border border-gray-300 bg-white text-gray-700
          focus:ring-2 focus:ring-blue-500 shadow-sm transition cursor-pointer">
                             <option value="open" {{ $project->status === 'open' ? 'selected' : '' }}>Open
                             </option>
@@ -30,7 +29,7 @@
                     </div>
                     @if ($project->status === 'open')
                         <button wire:click="closeRecruitment"
-                            class="px-4 py-2 text-sm rounded-lg bg-yellow-100 text-yellow-800 font-medium hover:bg-yellow-200 
+                            class="px-4 py-2 text-sm rounded-lg bg-yellow-100 text-yellow-800 font-medium hover:bg-yellow-200
      border border-yellow-200 flex items-center gap-2 transition">
                             <x-icon name="lock" class="w-4" />
                             Tutup Recruitment
@@ -160,18 +159,29 @@
 
                         <div class="flex flex-col items-end gap-2">
                             @php
-                                $roleApplicant = $project->applications->firstWhere('project_role_id', $pr->id);
-                                $appliedForThis = $roleApplicant && $roleApplicant->user_id == auth()->id();
+                                $myApplicantion = $project->applications->first(
+                                    fn($app) => $app->user_id === auth()->id() && $app->project_role_id === $pr->id,
+                                );
+                                $alreadyMember = $project->applications->first(
+                                    fn($app) => $app->user_id === auth()->id() && $app->status === 'accepted',
+                                );
                             @endphp
 
                             @if (auth()->id() !== $project->owner_id)
-                                @if ($appliedForThis && $roleApplicant->status == 'pending')
+                                @if ($alreadyMember && $myApplicantion?->status === 'accepted')
+                                    <span
+                                        class="text-xs px-3 py-1 rounded-md bg-green-50 text-green-600">Diterima</span>
+                                @elseif ($alreadyMember)
+                                    <span class="text-xs px-3 py-1 rounded-md bg-green-50 text-green-600">Sudah
+                                        Bergabung</span>
+                                @elseif ($filled >= $pr->quantity && $pr->quantity)
+                                    <span class="text-xs px-3 py-1 rounded-md bg-gray-100 text-gray-600">Penuh</span>
+                                @elseif ($myApplicantion?->status === 'pending')
                                     <button
                                         wire:click="cancelApplication({{ $project->applications->firstWhere('project_role_id', $pr->id)->id }})"
                                         class="text-xs px-3 py-1 rounded-md border border-red-200 text-red-600">Batal</button>
-                                @elseif($appliedForThis && $roleApplicant->status == 'rejected')
-                                    <button disabled
-                                        class="text-xs px-3 py-1 rounded-md border bg-gray-200 text-gray-600">Ditolak</button>
+                                @elseif($myApplicantion?->status === 'rejected')
+                                    <span class="text-xs px-3 py-1 rounded-md bg-red-50 text-red-600">Ditolak</span>
                                 @else
                                     <button wire:click="openApplyModal({{ $pr->id }})"
                                         class="text-xs px-3 py-1 rounded-md bg-blue-600 text-white">Lamar</button>

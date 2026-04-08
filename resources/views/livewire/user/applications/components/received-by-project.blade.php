@@ -20,8 +20,7 @@
     @else
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach ($project->applications as $application)
-                <a href="{{ route('talents.show', $application->user->id) }}"
-                    class="bg-white cursor-pointer border rounded-2xl p-5 shadow-sm hover:shadow-md transition">
+                <div class="bg-white border rounded-2xl p-5 shadow-sm hover:shadow-md transition">
                     <div class="flex justify-between items-center mb-3">
                         <span class="text-xs text-gray-400">{{ $application->created_at->diffForHumans() }}</span>
                         <span
@@ -30,7 +29,8 @@
                         </span>
                     </div>
 
-                    <div class="flex items-center gap-3 mb-4">
+                    <a href="{{ route('talents.show', $application->user->id) }}"
+                        class="cursor-pointer flex items-center gap-3 mb-4">
                         @if ($application->user->avatar)
                             <img src="{{ $application->user->avatar }}"
                                 class="w-12 h-12 rounded-md object-cover shadow-sm" alt="avatar">
@@ -46,7 +46,7 @@
                             <h3 class="font-semibold text-gray-900">{{ $application->user->name }}</h3>
                             <p class="text-sm text-gray-500">{{ $application->user->location ?? '-' }}</p>
                         </div>
-                    </div>
+                    </a>
 
                     <div class="text-sm text-gray-700 mb-3">
                         <strong>Posisi:</strong> {{ $application->projectRole->role->name }}
@@ -103,8 +103,7 @@
                             </div>
                         </div>
                     </div>
-
-                </a>
+                </div>
             @endforeach
         </div>
     @endif

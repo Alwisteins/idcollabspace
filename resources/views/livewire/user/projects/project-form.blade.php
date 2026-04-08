@@ -31,11 +31,11 @@
     </ol>
     <div class="mt-3 max-w-6xl mx-auto bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
         @if ($currentStep === 1)
-            @include('livewire.projects.steps.project-detail')
+            @include('livewire.user.projects.steps.project-detail')
         @elseif($currentStep === 2)
-            @include('livewire.projects.steps.team-role')
+            @include('livewire.user.projects.steps.team-role')
         @elseif($currentStep === 3)
-            @include('livewire.projects.steps.confirmation')
+            @include('livewire.user.projects.steps.confirmation')
         @endif
     </div>
     <div class="w-full flex {{ $currentStep == 1 ? 'justify-end' : 'justify-between' }} gap-6 mt-6">

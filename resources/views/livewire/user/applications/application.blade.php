@@ -2,7 +2,7 @@
     <div>
         <ul class="flex flex-wrap text-sm font-medium text-center text-gray-500 dark:text-gray-400">
             <li class="me-2">
-                <a href="/applications?type=received" wire:navigate
+                <a href="/user/applications?type=received" wire:navigate
                     class="inline-block px-4 py-3 {{ request()->type == 'received' ? 'text-white bg-blue-600 active' : ' hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white' }} rounded-lg"
                     aria-current="page">
                     Lamaran Masuk
@@ -11,7 +11,7 @@
                 </a>
             </li>
             <li class="me-2">
-                <a href="/applications?type=sent"
+                <a href="/user/applications?type=sent"
                     class="inline-block px-4 py-3 rounded-lg {{ request()->type == 'sent' ? 'text-white bg-blue-600 active' : ' hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white' }}">
                     Lamaran Dikirim
                     <span
